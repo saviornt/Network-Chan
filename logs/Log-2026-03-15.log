@@ -4,3 +4,139 @@
 {"timestamp": "2026-03-15 15:26:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "function": "run_loop", "line": 32}
 {"timestamp": "2026-03-15 15:26:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "function": "run_loop", "line": 32}
 {"timestamp": "2026-03-15 15:26:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "function": "run_loop", "line": 32}
+{"timestamp": "2026-03-15 15:56:56", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 15:56:56", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 15:58:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 15:58:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:00:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:00:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:01:08", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:01:08", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:11:43", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:11:43", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:17:33", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:17:33", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:23:53", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:23:53", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 32}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 45}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "Executing approved action", "module": "main", "funcName": "run_loop", "lineno": 53}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}

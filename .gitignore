@@ -10,6 +10,7 @@ env/
 .env
 /typings/
 .coverage
+temp/
 *.db
 
 # Misc

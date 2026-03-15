@@ -13,7 +13,8 @@ async def test_approve_action() -> None:
 @pytest.mark.asyncio
 async def test_approve_action_denied_level() -> None:
     engine = PolicyEngine()
-    approved, msg = await engine.approve_action('reset_interface', current_level=2)
+    engine.current_level = 2 # Set low level
+    approved, msg = await engine.approve_action('reset_interface')
     assert approved is False
     assert "Insufficient" in msg
 
@@ -26,7 +27,8 @@ async def test_approve_action_denied_whitelist() -> None:
 
 @pytest.mark.asyncio
 async def test_approve_action_denied_role() -> None:
-    engine = PolicyEngine(role='viewer') # Bad role in init
+    engine = PolicyEngine()
+    engine.role = 'viewer' # Set bad role
     approved, msg = await engine.approve_action('reset_interface')
     assert approved is False
     assert "Unauthorized" in msg

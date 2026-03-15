@@ -1,13 +1,12 @@
-# appliance/src/logging_setup.py
-
+# appliance/src/logging_setup.py (updated for JSON, rotating files, prune)
+from typing import Dict, Any, Optional
 import logging
-from typing import Optional, Dict, Any
 from logging.handlers import TimedRotatingFileHandler
 import json
 import os
 import time
 from datetime import datetime
-from .config import config
+from .config import config  # For LOG_LEVEL and PRUNE_DAYS
 
 class JSONFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
@@ -16,45 +15,44 @@ class JSONFormatter(logging.Formatter):
             'level': record.levelname,
             'message': record.msg,
             'module': record.module,
-            'function': record.funcName,
-            'line': record.lineno,
+            'funcName': record.funcName,
+            'lineno': record.lineno,
         }
         if record.exc_info:
-            log_record['exception_info'] = self.formatException(record.exc_info)
+            log_record['exc_info'] = self.formatException(record.exc_info)
         return json.dumps(log_record)
 
 def setup_logging(level: Optional[str] = None) -> logging.Logger:
     level = level or config.log_level  # From .env
-    logger = logging.getLogger(f'NetworkChanAppliance: {__name__}')
+    logger = logging.getLogger('NetworkChanAppliance')
     logger.setLevel(getattr(logging, level.upper()))
 
     # Create logs dir if not exists
-    logs_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')  # appliance/logs/
+    logs_dir: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
     if not os.path.exists(logs_dir):
         os.makedirs(logs_dir)
 
     # Daily rotating file: Log-YYYY-MM-DD.log
     today = datetime.now().strftime('%Y-%m-%d')
-    log_file = os.path.join(logs_dir, f'Log-{today}.log')
-    handler = TimedRotatingFileHandler(log_file, when='midnight', backupCount=int(config.log_prune_timeframe))  # Keeps 90 days
+    log_file: str = os.path.join(logs_dir, f'Log-{today}.log')
+    handler = TimedRotatingFileHandler(log_file, when='midnight', backupCount=90)  # Keeps 90 days
     handler.setFormatter(JSONFormatter(datefmt='%Y-%m-%d %H:%M:%S'))
     logger.addHandler(handler)
 
     return logger
 
 def prune_logs() -> None:
-    """Prune logs older than 90 days."""
-    logs_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
-    logger = setup_logging()
+    """Prune logs older than config.prune_days."""
+    logs_dir: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs')
     if not os.path.exists(logs_dir):
         return
 
     now = time.time()
-    cutoff = now - (int(config.log_prune_timeframe) * 24 * 3600)  # 90 days in seconds
+    cutoff = now - (int(config.prune_days) * 24 * 3600)  # Days to seconds
 
     for file in os.listdir(logs_dir):
         if file.startswith('Log-') and file.endswith('.log'):
-            file_path = os.path.join(logs_dir, file)
+            file_path: str = os.path.join(logs_dir, file)
             try:
                 if os.stat(file_path).st_mtime < cutoff:
                     os.remove(file_path)

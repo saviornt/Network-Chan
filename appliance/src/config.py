@@ -12,7 +12,7 @@ class Config:
         self.role: str = os.getenv('ROLE', 'admin')
         self.whitelist_actions: List[str] = os.getenv('WHITELIST_ACTIONS', 'reset_interface,throttle_bandwidth').split(',')
         self.log_level: str = os.getenv('LOG_LEVEL', 'INFO')
-        self.log_prune_timeframe: str = os.getenv('LOG_PRUNE_TIMEFRAME', '90')
+        self.prune_days: str = os.getenv('LOG_PRUNE_TIMEFRAME', '90')
         self.model_path: str = os.getenv('MODEL_PATH', 'mock_model.onnx')
 
         # Constants for modes
