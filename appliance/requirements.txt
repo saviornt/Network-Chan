@@ -1,4 +1,5 @@
 numpy==2.4.3  # For arrays in mocks
 numba==0.64.0  # For perf (as tested)
 scipy==1.17.1  # For scientific computing
+python-dotenv==1.2.2
 # Add later: torch, networkx, onnxruntime (for TinyML)

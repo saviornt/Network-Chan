@@ -4,7 +4,7 @@ from typing import Dict, Any
 from unittest.mock import patch
 import pytest
 import numpy as np  # For mocks if needed
-from appliance.src.telemetry_ingest import TelemetryIngestor, compute_metric_average
+from appliance.src.telemetry.telemetry_ingest import TelemetryIngestor, compute_metric_average
 
 @pytest.mark.asyncio
 async def test_collect_metrics() -> None:

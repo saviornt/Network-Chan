@@ -2,7 +2,7 @@
 
 from typing import Dict, List, Tuple
 import asyncio
-from .config import config
+from ..config import config
 from numba import jit # type: ignore
 
 @jit(nopython=True) # type: ignore[misc]

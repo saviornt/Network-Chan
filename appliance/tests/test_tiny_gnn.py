@@ -2,7 +2,7 @@
 import pytest
 import numpy as np
 from unittest.mock import patch
-from appliance.src.tiny_gnn import TinyGNN, gnn_forward
+from appliance.src.ml.tiny_gnn import TinyGNN, gnn_forward
 
 @pytest.mark.asyncio
 async def test_load_model() -> None:

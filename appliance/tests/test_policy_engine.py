@@ -1,7 +1,7 @@
 # appliance/tests/test_policy_engine.py
 
 import pytest
-from appliance.src.policy_engine import PolicyEngine, check_autonomy_level
+from appliance.src.governance.policy_engine import PolicyEngine, check_autonomy_level
 
 @pytest.mark.asyncio
 async def test_approve_action() -> None:
@@ -13,7 +13,7 @@ async def test_approve_action() -> None:
 @pytest.mark.asyncio
 async def test_approve_action_denied_level() -> None:
     engine = PolicyEngine()
-    approved, msg = await engine.approve_action('reset_interface')
+    approved, msg = await engine.approve_action('reset_interface', current_level=2)
     assert approved is False
     assert "Insufficient" in msg
 
@@ -26,7 +26,7 @@ async def test_approve_action_denied_whitelist() -> None:
 
 @pytest.mark.asyncio
 async def test_approve_action_denied_role() -> None:
-    engine = PolicyEngine()
+    engine = PolicyEngine(role='viewer') # Bad role in init
     approved, msg = await engine.approve_action('reset_interface')
     assert approved is False
     assert "Unauthorized" in msg

@@ -2,7 +2,7 @@
 
 import pytest
 import numpy as np
-from appliance.src.edge_rl import QLearningAgent, get_q_value
+from appliance.src.ml.edge_rl import QLearningAgent, get_q_value
 
 @pytest.mark.asyncio
 async def test_select_action() -> None:
