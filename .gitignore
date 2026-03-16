@@ -11,6 +11,8 @@ venv/
 .coverage
 temp/
 *.db
+logs/
+*.log
 
 # Misc
 *.DS_Store

@@ -19,6 +19,7 @@ AUTONOMOUS_MODES: Dict[int, str] = {
     5: "Experimental",
 }
 
+
 class AppSettings(BaseSettings):
     """Core application settings (autonomy, logging, paths, etc.)."""
 
@@ -34,8 +35,7 @@ class AppSettings(BaseSettings):
 
     # Access Control / RBAC
     role: Literal["admin", "user", "guest"] = Field(
-        "admin",
-        description="User role for access control"
+        "admin", description="User role for access control"
     )
 
     # Logging & Maintenance
@@ -64,6 +64,7 @@ class AppSettings(BaseSettings):
         case_sensitive=False,
     )
 
+
 class MQTTSettings(BaseSettings):
     """MQTT connection configuration."""
 
@@ -83,6 +84,7 @@ class MQTTSettings(BaseSettings):
         extra="ignore",
     )
 
+
 # Convenience singletons – import these directly
-app_settings = AppSettings()    # type: ignore[call-arg]
+app_settings = AppSettings()  # type: ignore[call-arg]
 mqtt_settings = MQTTSettings()  # type: ignore[call-arg]
