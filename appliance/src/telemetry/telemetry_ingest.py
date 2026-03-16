@@ -5,7 +5,7 @@ import asyncio
 import random  # Mock data; replace with psutil/PySNMP later
 import numpy as np  # Add for arrays
 from numba import jit # type: ignore
-from shared.src.db_schema import init_db  # Shared dep
+from shared.src.db.db_schema import init_db  # Shared dep
 
 @jit(nopython=True) # type: ignore[misc]
 def compute_metric_average(values: np.ndarray) -> float:  # Numba for perf in aggregations

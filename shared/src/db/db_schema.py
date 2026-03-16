@@ -3,9 +3,9 @@
 from typing import Optional
 import sqlite3
 import asyncio
-# from numba import jit  # For potential perf in queries (stub)
+from numba import jit  # type: ignore
 
-#@jit(nopython=True)
+@jit(nopython=True) # type: ignore
 def mock_compute_embedding(vector: list[float]) -> float:  # Numba stub for future vector ops
     return sum(vector)  # Placeholder math
 

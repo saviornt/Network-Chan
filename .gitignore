@@ -6,8 +6,7 @@ __pycache__/
 .Python
 .venv/
 venv/
-env/
-.env
+.env.local
 /typings/
 .coverage
 temp/

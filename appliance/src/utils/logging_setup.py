@@ -6,7 +6,7 @@ import json
 import os
 import time
 from datetime import datetime
-from ..config import config  # For LOG_LEVEL and PRUNE_DAYS
+from shared.src.config.settings import app_settings
 
 class JSONFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
@@ -23,7 +23,7 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_record)
 
 def setup_logging(level: Optional[str] = None) -> logging.Logger:
-    level = level or config.log_level  # From .env
+    level = level or app_settings.log_level  # From .env
     logger = logging.getLogger('NetworkChanAppliance')
     logger.setLevel(getattr(logging, level.upper()))
 
@@ -48,7 +48,7 @@ def prune_logs() -> None:
         return
 
     now = time.time()
-    cutoff = now - (int(config.prune_days) * 24 * 3600)  # Days to seconds
+    cutoff = now - (int(app_settings.prune_days) * 24 * 3600)  # Days to seconds
 
     for file in os.listdir(logs_dir):
         if file.startswith('Log-') and file.endswith('.log'):

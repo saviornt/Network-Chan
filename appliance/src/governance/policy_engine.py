@@ -2,7 +2,7 @@
 
 from typing import Dict, List, Tuple
 import asyncio
-from ..config import config
+from shared.src.config.settings import app_settings, AUTONOMOUS_MODES
 from numba import jit # type: ignore
 
 @jit(nopython=True) # type: ignore[misc]
@@ -11,10 +11,10 @@ def check_autonomy_level(level: int, required: int) -> bool:  # Numba for fast r
 
 class PolicyEngine:
     def __init__(self) -> None:
-        self.autonomy_levels: List[int] = list(config.AUTONOMOUS_MODES.keys())
-        self.role: str = config.role
-        self.whitelist: Dict[str, bool] = {action: True for action in config.whitelist_actions}
-        self.current_level: int = config.autonomous_mode
+        self.autonomy_levels: List[int] = list(AUTONOMOUS_MODES.keys())
+        self.role: str = app_settings.role
+        self.whitelist: Dict[str, bool] = {action: True for action in app_settings.whitelist_actions}
+        self.current_level: int = app_settings.autonomous_mode
 
     async def approve_action(self, action: str) -> Tuple[bool, str]:
         await asyncio.sleep(0)  # Async for potential DB/RBAC query

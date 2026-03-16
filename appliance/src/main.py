@@ -11,10 +11,10 @@ from .security.anomaly_detection import AnomalyDetector
 from .security.security_audit import SecurityAudit
 from .remediation.remediation_mockup import RemediationDaemon
 from .utils.logging_setup import logger, prune_logs
-from .config import config
+from shared.src.config.settings import app_settings
 
 async def run_audit_scheduler(audit: SecurityAudit) -> None:
-    mode = config.audit_mode
+    mode = app_settings.audit_mode
     logger.info(f"Starting security audit scheduler in {mode} mode")
     match mode:
         case 'always':
