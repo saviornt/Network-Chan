@@ -5,16 +5,15 @@ Provides a typed, asynchronous wrapper around paho-mqtt with Pydantic integratio
 
 from __future__ import annotations
 
-from typing import Any, Awaitable, Callable, Dict, Optional
-
 import asyncio
 import logging
+from typing import Any, Awaitable, Callable
 
 from paho.mqtt import client as mqtt_client
-from paho.mqtt.enums import CallbackAPIVersion
-from paho.mqtt.reasoncodes import ReasonCode
-from paho.mqtt.properties import Properties
 from paho.mqtt.client import DisconnectFlags  # Typed flags dict
+from paho.mqtt.enums import CallbackAPIVersion
+from paho.mqtt.properties import Properties
+from paho.mqtt.reasoncodes import ReasonCode
 
 from shared.src.config.settings import MQTTSettings, mqtt_settings
 
@@ -24,7 +23,7 @@ logger = logging.getLogger(__name__)
 class AsyncMQTTClient:
     """Asynchronous MQTT client wrapper with type safety and Pydantic config."""
 
-    def __init__(self, settings: Optional[MQTTSettings] = None) -> None:
+    def __init__(self, settings: MQTTSettings | None = None) -> None:
         """Initialize with optional custom settings (defaults to global mqtt_settings)."""
         self.settings: MQTTSettings = settings or mqtt_settings
 
@@ -51,14 +50,14 @@ class AsyncMQTTClient:
         self.client.on_message = self._on_message
         self.client.on_disconnect = self._on_disconnect
 
-        self.loop: Optional[asyncio.AbstractEventLoop] = None
-        self.sub_callbacks: Dict[str, Callable[[str, Any], Awaitable[None]]] = {}
+        self.loop: asyncio.AbstractEventLoop | None = None
+        self.sub_callbacks: dict[str, Callable[[str, Any], Awaitable[None]]] = {}
 
     def _on_connect(
         self,
         client: mqtt_client.Client,
         userdata: Any,
-        flags: Dict[str, Any],
+        flags: dict[str, Any],
         reason_code: ReasonCode,
         properties: Properties | None = None,
     ) -> None:

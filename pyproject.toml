@@ -12,3 +12,7 @@ skip-magic-trailing-comma = false
 [tool.ruff.lint]
 preview = true
 select = ["E", "F", "I", "UP", "B", "Q", "ANN"]
+ignore = [
+    "UP035",  # non-pep604-annotation-optional: prefer Optional[T] over T | None
+    "UP006",
+]

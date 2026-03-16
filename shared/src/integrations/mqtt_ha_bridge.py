@@ -3,10 +3,10 @@
 Uses the shared AsyncMQTTClient with Pydantic-validated settings.
 """
 
-from typing import Awaitable, Callable, Any
+from typing import Any, Awaitable, Callable
 
-from shared.src.mqtt.mqtt_utils import AsyncMQTTClient
 from shared.src.config.settings import mqtt_settings
+from shared.src.mqtt.mqtt_utils import AsyncMQTTClient
 
 
 class HomeAssistantMQTTBridge:

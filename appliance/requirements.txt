@@ -2,6 +2,16 @@
 # Core runtime + async
 anyio>=4.12.1
 
+# Appliance dashboard
+fastapi>=0.135.1
+uvicorn>=0.42.0
+jinja2>=3.1.6
+python-multipart>=0.0.22
+passlib[bcrypt]>=1.7.4
+python-jose[cryptography]>=3.5.0
+qrcode[pil]>=8.2
+pyotp>=2.9.0
+
 # MQTT for platform async communication
 asyncio-mqtt>=0.16.2
 orjson>=3.11.7
