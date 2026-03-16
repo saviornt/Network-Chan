@@ -14,6 +14,7 @@ class Config:
         self.log_level: str = os.getenv('LOG_LEVEL', 'INFO')
         self.prune_days: str = os.getenv('LOG_PRUNE_TIMEFRAME', '90')
         self.model_path: str = os.getenv('MODEL_PATH', 'mock_model.onnx')
+        self.audit_mode: str = os.getenv('AUDIT_MODE', 'off-peak') # 'auto', 'off-peak', 'always'
 
         # Constants for modes
         self.AUTONOMOUS_MODES: Dict[int, str] = {

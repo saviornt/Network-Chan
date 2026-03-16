@@ -2,7 +2,7 @@
 import pytest
 import numpy as np
 from unittest.mock import patch
-from appliance.src.detection.anomaly_detection import AnomalyDetector, detect_anomaly, main as anomaly_main
+from appliance.src.security.anomaly_detection import AnomalyDetector, detect_anomaly, main as anomaly_main
 
 @pytest.mark.asyncio
 async def test_check_anomalies() -> None:

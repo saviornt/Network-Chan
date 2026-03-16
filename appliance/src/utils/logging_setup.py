@@ -6,7 +6,7 @@ import json
 import os
 import time
 from datetime import datetime
-from .config import config  # For LOG_LEVEL and PRUNE_DAYS
+from ..config import config  # For LOG_LEVEL and PRUNE_DAYS
 
 class JSONFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:

@@ -140,3 +140,106 @@
 {"timestamp": "2026-03-15 16:26:45", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 62}
 {"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
 {"timestamp": "2026-03-15 16:26:45", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 65}
+{"timestamp": "2026-03-15 17:36:40", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:36:40", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:36:40", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:36:40", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:36:40", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 93}
+{"timestamp": "2026-03-15 17:36:40", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:36:40", "level": "INFO", "message": "Executing reset_interface with {'interface': 'eth0'}", "module": "remediation_mockup", "funcName": "execute_action", "lineno": 24}
+{"timestamp": "2026-03-15 17:36:41", "level": "WARNING", "message": "Rollback test: Restored to [-1. -2.]", "module": "remediation_mockup", "funcName": "rollback_action", "lineno": 35}
+{"timestamp": "2026-03-15 17:36:41", "level": "INFO", "message": "Audit passed: Score 50.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 30}
+{"timestamp": "2026-03-15 17:36:41", "level": "WARNING", "message": "Audit failed: High risk score 90.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 28}
+{"timestamp": "2026-03-15 17:42:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:42:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:42:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:42:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:42:47", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:42:47", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 93}
+{"timestamp": "2026-03-15 17:42:47", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:42:48", "level": "INFO", "message": "Executing reset_interface with {'interface': 'eth0'}", "module": "remediation_mockup", "funcName": "execute_action", "lineno": 24}
+{"timestamp": "2026-03-15 17:42:48", "level": "WARNING", "message": "Rollback test: Restored to [-1. -2.]", "module": "remediation_mockup", "funcName": "rollback_action", "lineno": 35}
+{"timestamp": "2026-03-15 17:42:48", "level": "INFO", "message": "Audit passed: Score 50.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 30}
+{"timestamp": "2026-03-15 17:42:48", "level": "WARNING", "message": "Audit failed: High risk score 90.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 28}
+{"timestamp": "2026-03-15 17:42:48", "level": "INFO", "message": "Passed", "module": "security_audit", "funcName": "schedule_audit", "lineno": 38}
+{"timestamp": "2026-03-15 17:49:15", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:49:15", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:49:15", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:49:15", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:49:15", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 17:49:15", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 93}
+{"timestamp": "2026-03-15 17:49:15", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 17:49:16", "level": "INFO", "message": "Executing reset_interface with {'interface': 'eth0'}", "module": "remediation_mockup", "funcName": "execute_action", "lineno": 24}
+{"timestamp": "2026-03-15 17:49:16", "level": "WARNING", "message": "Rollback test: Restored to [-1. -2.]", "module": "remediation_mockup", "funcName": "rollback_action", "lineno": 35}
+{"timestamp": "2026-03-15 17:49:16", "level": "INFO", "message": "Audit passed: Score 50.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 30}
+{"timestamp": "2026-03-15 17:49:16", "level": "WARNING", "message": "Audit failed: High risk score 90.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 28}
+{"timestamp": "2026-03-15 17:49:16", "level": "INFO", "message": "Passed", "module": "security_audit", "funcName": "schedule_audit", "lineno": 38}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Alert: Alert", "module": "main", "funcName": "run_loop", "lineno": 60}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "RL Action selected: 1", "module": "main", "funcName": "run_loop", "lineno": 73}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Remediation: Remediated", "module": "main", "funcName": "run_loop", "lineno": 82}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "REPTILE adaptation complete", "module": "main", "funcName": "run_loop", "lineno": 93}
+{"timestamp": "2026-03-15 18:00:30", "level": "DEBUG", "message": "Metrics persisted", "module": "main", "funcName": "run_loop", "lineno": 96}
+{"timestamp": "2026-03-15 18:00:30", "level": "INFO", "message": "Executing reset_interface with {'interface': 'eth0'}", "module": "remediation_mockup", "funcName": "execute_action", "lineno": 24}
+{"timestamp": "2026-03-15 18:00:30", "level": "WARNING", "message": "Rollback test: Restored to [-1. -2.]", "module": "remediation_mockup", "funcName": "rollback_action", "lineno": 35}
+{"timestamp": "2026-03-15 18:00:31", "level": "INFO", "message": "Audit passed: Score 50.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 30}
+{"timestamp": "2026-03-15 18:00:31", "level": "WARNING", "message": "Audit failed: High risk score 90.0", "module": "security_audit", "funcName": "perform_audit", "lineno": 28}
+{"timestamp": "2026-03-15 18:00:31", "level": "INFO", "message": "Passed", "module": "security_audit", "funcName": "schedule_audit", "lineno": 38}

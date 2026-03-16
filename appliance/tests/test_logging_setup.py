@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 from unittest.mock import patch, Mock
 import json  # For loads in tests
-from appliance.src.logging_setup import JSONFormatter, setup_logging, prune_logs, logger as global_logger
+from appliance.src.utils.logging_setup import JSONFormatter, setup_logging, prune_logs, logger as global_logger
 
 @pytest.fixture
 def temp_logs_dir() -> str:

@@ -16,3 +16,6 @@ temp/
 # Misc
 *.DS_Store
 Thumbs.db
+.markdownlint.yaml
+grok_readme.md
+create_structure.py
