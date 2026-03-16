@@ -2,7 +2,7 @@
 
 import pytest
 import numpy as np
-from appliance.src.ml.meta_learner import ReptileMetaLearner, compute_gradient_update
+from appliance.src.ml.reptile_maml import ReptileMetaLearner, compute_gradient_update
 
 @pytest.mark.asyncio
 async def test_adapt_to_tasks() -> None:

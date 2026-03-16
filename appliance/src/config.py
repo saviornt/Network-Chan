@@ -17,13 +17,19 @@ class Config:
         self.audit_mode: str = os.getenv('AUDIT_MODE', 'off-peak') # 'auto', 'off-peak', 'always'
 
         # Constants for modes
+        # Observer: AI is in observe only, all changes must be manually performed
+        # Advisor: The AI makes recommendations based on the current environment
+        # Supervised: The AI makes a recommendation and then the user can apply that recommendation or decline
+        # Semi-Autonomous: The AI can make small remediations that will not cause network outages
+        # Autonomous: The AI is in full autonomous mode but is still dependant on policy guidelines
+        # Experimental: The AI can make changes regardless of policy guidelines
         self.AUTONOMOUS_MODES: Dict[int, str] = {
             0: "Observer",
-            1: "Manual",
+            1: "Advisor",
             2: "Supervised",
             3: "Semi-Autonomous",
             4: "Autonomous",
-            5: "Full Autonomous"
+            5: "Experimental"
         }
         if self.autonomous_mode not in self.AUTONOMOUS_MODES:
             raise ValueError("Invalid AUTONOMOUS_MODE")

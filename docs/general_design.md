@@ -14,9 +14,9 @@ Key operational principles: local-only, fail-open (network functions continue wi
 
 ---
 
-Goals & Success Criteria
+## Goals & Success Criteria
 
-Primary Goals
+### Primary Goals
 
 Build a safe, testable autonomous SDN control plane that can learn and self-remediate in a real home network.
 
@@ -32,7 +32,7 @@ Support research extensibility with simulation tools and modular code for experi
 
 Create an engaging admin experience with optional personality/emotional UX to make interactions fun for hobbyists while maintaining professional modes for businesses.
 
-Success Criteria
+## Success Criteria
 
 Edge controller can detect & remediate common failures (e.g., interface flaps, rogue DHCP) in simulated runs and in lab VLAN with no service-disrupting false positives >95% of experiments.
 
@@ -52,7 +52,7 @@ High-Level Architecture (Three-Brain Model)
 
 The system architecture follows a three-brain model to separate perception (state), decision (policy), and governance (safety & intent) across components for independent observation, debugging, and retraction.
 
-```
+```text
 +----------------------------+
 |    Admin / UI      |
 | Chat / TTS / STT   |

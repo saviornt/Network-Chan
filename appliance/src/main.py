@@ -3,8 +3,8 @@ from typing import NoReturn, List, Dict, Any
 import asyncio
 import numpy as np  # For states in RL
 from .telemetry.telemetry_ingest import TelemetryIngestor
-from .ml.edge_rl import QLearningAgent
-from .ml.meta_learner import ReptileMetaLearner
+from .ml.qlearn_rl import QLearningAgent
+from .ml.reptile_maml import ReptileMetaLearner
 from .ml.tiny_gnn import TinyGNN
 from .governance.policy_engine import PolicyEngine
 from .security.anomaly_detection import AnomalyDetector
@@ -45,8 +45,8 @@ async def run_loop() -> NoReturn:
     meta_learner = ReptileMetaLearner()
     gnn = TinyGNN()
     engine = PolicyEngine()
-    daemon = RemediationDaemon()  # Remediation integration
-    audit = SecurityAudit()  # Security audit integration
+    daemon = RemediationDaemon()
+    audit = SecurityAudit()
     audit_task = asyncio.create_task(run_audit_scheduler(audit))
     cycle_count: int = 0
 
