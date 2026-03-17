@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from pydantic import EmailStr, Field, field_validator
 
 from .base import NetworkChanBaseModel  # Assuming you have the common base
 

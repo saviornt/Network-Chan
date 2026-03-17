@@ -8,7 +8,7 @@ All payloads are validated before publish or after receive.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Literal
+from typing import Any, Dict, List, Literal
 
 from pydantic import Field, Json, field_validator
 
@@ -47,11 +47,16 @@ class MqttTelemetryPublish(NetworkChanBaseModel):
 
     @field_validator("payload", mode="before")
     @classmethod
-    def normalize_payload(cls, v: Any) -> Any:
-        """Allow single dict or list of dicts → always normalize to list."""
+    def normalize_payload(
+        cls,
+        v: Dict[str, Any] | List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        """Normalize payload to always be a list of dicts."""
         if isinstance(v, dict):
             return [v]
         if isinstance(v, list):
+            if not all(isinstance(item, dict) for item in v):
+                raise ValueError("All items in payload list must be dicts")
             return v
         raise ValueError("payload must be a dict or list of dicts")
 

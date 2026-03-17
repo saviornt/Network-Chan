@@ -6,7 +6,7 @@ import uuid
 from datetime import datetime
 from typing import Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, model_validator
 
 from .anomaly import AnomalyDetectionResult
 from .base import NetworkChanBaseModel
@@ -44,16 +44,16 @@ class IncidentLogEntry(NetworkChanBaseModel):
         default=None, ge=0, description="Calculated when end_time is set"
     )
 
-    @field_validator("end_time", mode="after")
-    @classmethod
-    def validate_chronology(cls, v: datetime | None, values) -> datetime | None:
-        if v is not None and "start_time" in values:
-            if v < values["start_time"]:
-                raise ValueError("end_time cannot be before start_time")
-        return v
+    @model_validator(mode="after")
+    def validate_chronology(self) -> IncidentLogEntry:
+        """Ensure chronological consistency between start_time and end_time."""
+        if self.end_time and self.start_time and self.end_time < self.start_time:
+            raise ValueError("end_time cannot be before start_time")
+        return self
 
     @model_validator(mode="after")
     def calculate_duration(self) -> IncidentLogEntry:
+        """Auto-calculate duration_seconds when both timestamps are present."""
         if self.end_time and self.start_time:
             delta = (self.end_time - self.start_time).total_seconds()
             object.__setattr__(self, "duration_seconds", max(0.0, delta))

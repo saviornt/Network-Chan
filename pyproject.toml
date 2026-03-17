@@ -16,3 +16,23 @@ ignore = [
     "UP035",  # non-pep604-annotation-optional: prefer Optional[T] over T | None
     "UP006",
 ]
+
+[tool.mypy]
+python_version = "3.12"           # or your version
+strict = true                     # optional but recommended
+explicit_package_bases = true
+mypy_path = [
+    "appliance/src",
+    "assistant/src",        # add this when the folder exists
+    "shared/src",
+]
+plugins = [
+    "pydantic.mypy",
+]
+
+# Optional: reduce noise while debugging
+warn_unused_ignores = false
+warn_redundant_casts = false
+show_error_codes = true
+
+disallow_untyped_defs = false

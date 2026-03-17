@@ -1,0 +1,15 @@
+# Top-level must be a mapping (not a bare list!)
+repos:
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.11.1
+  hooks:
+  - id: mypy
+    additional_dependencies:
+    - pydantic
+    - pydantic-settings>=2.0
+    - types-pyyaml
+
+# Optional other top-level keys
+default_language_version:
+  python: python3.12
+minimum_pre_commit_version: "3.0.0"
