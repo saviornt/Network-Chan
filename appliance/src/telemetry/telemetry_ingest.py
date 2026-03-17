@@ -7,11 +7,13 @@ from typing import Any
 import numpy as np  # Add for arrays
 from numba import jit  # type: ignore
 
-from shared.src.db.db_schema import init_db  # Shared dep
+from shared.src.db.schemas import init_db  # Shared dep
 
 
 @jit(nopython=True)  # type: ignore[misc]
-def compute_metric_average(values: np.ndarray) -> float:  # Numba for perf in aggregations
+def compute_metric_average(
+    values: np.ndarray,
+) -> float:  # Numba for perf in aggregations
     if values.size == 0:
         return 0.0
     return np.sum(values) / values.size
@@ -24,8 +26,12 @@ class TelemetryIngestor:
 
     async def collect_metrics(self, devices: list[str]) -> None:
         loop = asyncio.get_running_loop()
-        tasks: list[asyncio.Task[dict[str, Any]]] = [loop.create_task(self._scrape_device(device)) for device in devices]
-        results: list[dict[str, Any] | BaseException] = await asyncio.gather(*tasks, return_exceptions=True)
+        tasks: list[asyncio.Task[dict[str, Any]]] = [
+            loop.create_task(self._scrape_device(device)) for device in devices
+        ]
+        results: list[dict[str, Any] | BaseException] = await asyncio.gather(
+            *tasks, return_exceptions=True
+        )
         for result in results:
             if not isinstance(result, BaseException):
                 self.metrics.append(result)  # type: ignore[arg-type]
@@ -42,7 +48,7 @@ class TelemetryIngestor:
             "device": device,
             "cpu": random.uniform(0, 100),
             "bandwidth": random.randint(0, 1000),
-            "timestamp": asyncio.get_event_loop().time()
+            "timestamp": asyncio.get_event_loop().time(),
         }
 
     async def persist_metrics(self) -> None:

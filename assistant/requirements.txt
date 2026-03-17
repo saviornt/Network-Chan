@@ -37,3 +37,6 @@ typing-extensions>=4.12.2
 # Optional but very useful for AIOps features
 tenacity>=9.0.0           # retries/backoff for flaky LLM/MQTT calls
 orjson>=3.10.0            # ultra-fast JSON (used by FastAPI for faster responses)
+
+# FAISS Database for vector database
+faiss-gpu-cu12>=1.14.1.post1

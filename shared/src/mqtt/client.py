@@ -15,7 +15,7 @@ from paho.mqtt.enums import CallbackAPIVersion
 from paho.mqtt.properties import Properties
 from paho.mqtt.reasoncodes import ReasonCode
 
-from shared.src.config.settings import MQTTSettings, mqtt_settings
+from src.config.settings import MQTTSettings, mqtt_settings
 
 logger = logging.getLogger(__name__)
 

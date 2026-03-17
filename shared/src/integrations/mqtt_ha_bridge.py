@@ -6,7 +6,7 @@ Uses the shared AsyncMQTTClient with Pydantic-validated settings.
 from typing import Any, Awaitable, Callable
 
 from shared.src.config.settings import mqtt_settings
-from shared.src.mqtt.mqtt_utils import AsyncMQTTClient
+from shared.src.mqtt.client import AsyncMQTTClient
 
 
 class HomeAssistantMQTTBridge:

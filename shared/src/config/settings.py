@@ -13,7 +13,10 @@ Usage:
 
 from __future__ import annotations
 
+import os
+import platform
 from enum import IntEnum
+from functools import cached_property
 from pathlib import Path
 from typing import Literal
 
@@ -55,24 +58,32 @@ class Settings(BaseSettings):
     # Security & Authentication
     # =========================================================================
     secret_key: SecretStr = Field(
-        default=...,
+        default=SecretStr(
+            os.getenv("SECRET_KEY", "test-secret-key-for-unit-tests-only")
+        ),
         validation_alias="SECRET_KEY",
         description="Root secret for JWT, sessions, Fernet crypto, etc.",
     )
     jwt_secret: SecretStr = Field(
-        default=...,
+        default=SecretStr(
+            os.getenv("JWT_SECRET", "test-jwt-secret-for-unit-tests-only")
+        ),
         validation_alias="JWT_SECRET",
         description="Dedicated secret for signing/verifying JWT tokens",
     )
     password_salt: SecretStr = Field(
-        default=...,
+        default=SecretStr(
+            os.getenv("PASSWORD_SALT", "test-password-salt-for-unit-tests-only")
+        ),
         validation_alias="PASSWORD_SALT",
         description="Salt used in password hashing (bcrypt/argon2)",
     )
 
     admin_username: str = Field(default="admin", min_length=3)
     admin_password_hash: str = Field(
-        default=...,
+        default=os.getenv(
+            "ADMIN_PASSWORD_HASH", "test-bcrypt-hash-for-unit-tests-only"
+        ),
         validation_alias="ADMIN_PASSWORD_HASH",
         description="bcrypt hash of the admin password",
     )
@@ -143,6 +154,12 @@ class Settings(BaseSettings):
     rl_learning_rate: float = Field(default=0.1, gt=0.0, lt=1.0)
     reptile_inner_steps: int = Field(default=5, ge=1, le=20)
     anomaly_threshold: float = Field(default=0.85, ge=0.0, le=1.0)
+    rl_alpha: float = Field(
+        default=0.1,
+        gt=0.0,
+        lt=1.0,
+        description="Learning rate for Q-Learning updates (0 < alpha < 1)",
+    )
 
     # =========================================================================
     # Computed / Helper Properties
@@ -157,13 +174,70 @@ class Settings(BaseSettings):
         """Absolute path to FAISS index file."""
         return (self.data_dir / self.faiss_index_path).resolve()
 
+    @cached_property
     def is_edge_device(self) -> bool:
-        """Heuristic to detect if running on Raspberry Pi (Appliance context)."""
-        return (
-            self.app_env == "development-pi"
-            or Path("/proc/device-tree").exists()
-            or "arm" in Path("/proc/cpuinfo").read_text().lower()
+        """Detect whether we are running on a Raspberry Pi (Appliance / edge mode).
+
+        Detection priority:
+        1. OS/distribution name contains 'Raspbian' or 'Raspberry Pi OS'
+        2. Machine/hardware identifier is 'armv' or 'aarch64' + Pi-specific files exist
+        3. Presence of Raspberry Pi specific paths (/proc/device-tree, /sys/firmware/devicetree)
+
+        Returns:
+            True if likely running on Raspberry Pi Appliance, False otherwise.
+        """
+        # 1. OS/distribution check (most reliable for Raspberry Pi OS)
+        system = platform.system().lower()
+        if system != "linux":
+            return False
+
+        dist = ""
+        try:
+            with open("/etc/os-release", encoding="utf-8") as f:
+                for line in f:
+                    if line.startswith("PRETTY_NAME="):
+                        dist = line.split("=", 1)[1].strip().strip('"').lower()
+                        break
+        except (FileNotFoundError, PermissionError):
+            pass
+
+        if "raspbian" in dist or "raspberry pi os" in dist:
+            return True
+
+        # 2. Architecture + Pi-specific file checks (fallback)
+        machine = platform.machine().lower()
+        is_arm = "arm" in machine or "aarch64" in machine
+
+        if not is_arm:
+            return False
+
+        # Typical Raspberry Pi indicators
+        pi_indicators = [
+            "/proc/device-tree/model",
+            "/sys/firmware/devicetree/base/model",
+            "/proc/cpuinfo",  # contains "Raspberry Pi" in "Model" or "Hardware"
+        ]
+
+        for path in pi_indicators:
+            if os.path.exists(path):
+                try:
+                    with open(path, encoding="utf-8") as f:
+                        content = f.read().lower()
+                        if "raspberry pi" in content:
+                            return True
+                except (PermissionError, OSError):
+                    pass
+
+        # Last resort: existence of typical Pi paths
+        return os.path.exists("/proc/device-tree") and os.path.exists(
+            "/sys/class/thermal/thermal_zone0"
         )
+
+    # Optional: convenience property
+    @property
+    def running_on_pi(self) -> bool:
+        """Alias for is_edge_device() — more readable in some contexts."""
+        return self.is_edge_device
 
     def is_2fa_enabled(self) -> bool:
         """Check if TOTP 2FA is configured for the admin user."""
@@ -183,10 +257,7 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def validate_autonomy_constraints(self) -> Settings:
         """Enforce safety rules on autonomy level."""
-        if (
-            self.autonomous_mode >= AutonomyLevel.AUTONOMOUS
-            and not self.is_edge_device()
-        ):
+        if self.autonomous_mode >= AutonomyLevel.AUTONOMOUS and not self.is_edge_device:
             # Optional: raise ValueError("Full autonomy only allowed on edge Appliance")
             pass  # For now, just log warning in real usage
         return self
