@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📋 Product Backlog
+    url: https://github.com/saviornt/Network-Chan/blob/main/docs/backlog.md
+    about: View the full prioritized product backlog
+  - name: 🏃 Sprint Plan
+    url: https://github.com/saviornt/Network-Chan/blob/main/docs/sprint_plan.md
+    about: View current and upcoming sprint plans
+  - name: 📐 Architecture
+    url: https://github.com/saviornt/Network-Chan/blob/main/docs/architecture.md
+    about: Review the system architecture documentation

@@ -1,0 +1,101 @@
+name: 🏁 Sprint Ceremony
+description: Track a sprint planning, review, or retrospective session.
+title: "[SPRINT-X] "
+labels: ["task", "ci-cd"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Sprint Ceremony Tracker
+        Use this issue to document a sprint planning session, review, or retrospective. Close the issue when the ceremony is complete.
+
+  - type: dropdown
+    id: ceremony_type
+    attributes:
+      label: Ceremony Type
+      options:
+        - "🗺️  Sprint Planning"
+        - "📊  Sprint Review / Demo"
+        - "🔄  Sprint Retrospective"
+        - "🌱  Backlog Grooming"
+    validations:
+      required: true
+
+  - type: input
+    id: sprint_number
+    attributes:
+      label: Sprint Number
+      placeholder: "1"
+    validations:
+      required: true
+
+  - type: input
+    id: sprint_dates
+    attributes:
+      label: Sprint Dates
+      placeholder: "March 17 – March 30, 2026"
+    validations:
+      required: true
+
+  - type: input
+    id: velocity_target
+    attributes:
+      label: Velocity Target (story points)
+      placeholder: "15"
+
+  - type: textarea
+    id: sprint_goal
+    attributes:
+      label: Sprint Goal
+      description: One sentence describing the primary outcome of this sprint.
+      placeholder: "Sync repo, install deps, run/test stubs, complete Phase 0."
+    validations:
+      required: true
+
+  - type: textarea
+    id: committed_stories
+    attributes:
+      label: Committed Stories / Tasks
+      description: List the issues committed to this sprint with their story points.
+      placeholder: |
+        | ID | Title | Points |
+        |----|-------|--------|
+        | #1 | TK-004 – Setup GitHub Projects board | 2 |
+        | #2 | US-001 – Async telemetry ingestion | 8 |
+    validations:
+      required: true
+
+  - type: textarea
+    id: blockers
+    attributes:
+      label: Known Blockers / Risks
+      placeholder: "Hardware not yet arrived; mitigate with mocks."
+
+  - type: textarea
+    id: retro_went_well
+    attributes:
+      label: 🟢 Retrospective – What Went Well
+      description: Fill in during the Retrospective ceremony.
+
+  - type: textarea
+    id: retro_improve
+    attributes:
+      label: 🟡 Retrospective – What to Improve
+      description: Fill in during the Retrospective ceremony.
+
+  - type: textarea
+    id: retro_actions
+    attributes:
+      label: 🔵 Retrospective – Action Items
+      description: Concrete next steps with owners.
+      placeholder: |
+        - [ ] Add more tests early → @dave
+        - [ ] Set up Discord for standups → @dave
+
+  - type: input
+    id: actual_velocity
+    attributes:
+      label: Actual Velocity (story points completed)
+      description: Fill in at the end of the sprint.
+      placeholder: "13"

@@ -1,0 +1,134 @@
+name: 🏃 User Story
+description: Add a new user story to the product backlog for sprint planning.
+title: "[US] "
+labels: ["user-story", "backlog"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## User Story
+        Fill in the fields below. Stories should follow **INVEST** (Independent, Negotiable, Valuable, Estimable, Small, Testable) and be **≤ 8 story points**. Larger stories must be split before being marked *Ready*.
+
+  - type: input
+    id: story_id
+    attributes:
+      label: Story ID
+      description: "Identifier from the backlog (e.g. US-001, TK-004)."
+      placeholder: "US-XXX"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: epic
+    attributes:
+      label: Epic
+      description: Which epic does this story belong to?
+      options:
+        - "EP-001 – Perception & Telemetry"
+        - "EP-002 – Decision & Learning"
+        - "EP-003 – Governance & Safety"
+        - "EP-004 – Execution & Automation"
+        - "EP-005 – Memory & Retrieval"
+        - "EP-006 – Admin UI & UX"
+        - "EP-007 – Integration & Testing"
+        - "TK – Technical Task / Debt"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the monorepo is primarily affected?
+      multiple: true
+      options:
+        - "appliance/ (Raspberry Pi 5 edge controller)"
+        - "assistant/ (PC / AIOps server)"
+        - "shared/ (shared utilities)"
+        - "docs/ (documentation)"
+        - "scripts/ (deployment & tooling)"
+        - "CI/CD (.github/)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: story
+    attributes:
+      label: User Story
+      description: "As a [role], I want [feature] so that [benefit]."
+      placeholder: "As a network admin, I want … so that …"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: "Testable conditions that must all be met for this story to be *Done*. Use a checklist."
+      placeholder: |
+        - [ ] Condition 1
+        - [ ] Condition 2
+        - [ ] Condition 3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: points
+    attributes:
+      label: Story Points (Fibonacci)
+      description: Estimated complexity. Stories > 8 points must be split.
+      options:
+        - "1"
+        - "2"
+        - "3"
+        - "5"
+        - "8"
+        - "13 (needs splitting)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - "🔴 Critical – blocks sprint goal"
+        - "🟠 High – key deliverable"
+        - "🟡 Medium – important but not urgent"
+        - "🟢 Low – nice-to-have"
+    validations:
+      required: true
+
+  - type: input
+    id: sprint
+    attributes:
+      label: Target Sprint
+      description: "Sprint number or name (e.g. Sprint 1, Sprint 2). Leave blank if unscheduled."
+      placeholder: "Sprint X"
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List any stories, tasks, or external items that must be completed first.
+      placeholder: "Depends on US-001, hardware setup"
+
+  - type: checkboxes
+    id: definition_of_ready
+    attributes:
+      label: Definition of Ready (DoR) – must be checked before sprint commitment
+      options:
+        - label: Clear description and acceptance criteria defined
+        - label: Dependencies resolved or explicitly tracked
+        - label: Estimated in story points
+        - label: Prioritized by Product Owner
+        - label: Risks identified
+        - label: Sized ≤ 8 points (or split plan agreed)
+        - label: Testable (AC include verifiable outcomes)
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes / Technical Context
+      description: Any design notes, links, or relevant context.

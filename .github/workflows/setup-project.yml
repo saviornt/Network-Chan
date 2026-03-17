@@ -1,0 +1,226 @@
+name: Setup AGILE Project Board
+
+# Run this workflow ONCE after the repo is first set up, or any time
+# you want to refresh labels and milestones.
+# Trigger manually via Actions → "Setup AGILE Project Board" → "Run workflow".
+on:
+  workflow_dispatch:
+    inputs:
+      reset_labels:
+        description: "Delete all existing labels first (clean slate)"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  setup-labels:
+    name: Create / Update Labels
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Delete existing labels (optional)
+        if: inputs.reset_labels == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label list --repo "$GITHUB_REPOSITORY" --json name --jq '.[].name' | \
+            xargs -I{} gh label delete {} --repo "$GITHUB_REPOSITORY" --yes 2>/dev/null || true
+
+      - name: Create AGILE labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          create_label() {
+            local name="$1" color="$2" description="$3"
+            gh label create "$name" \
+              --color "$color" \
+              --description "$description" \
+              --repo "$GITHUB_REPOSITORY" \
+              --force 2>/dev/null || true
+          }
+
+          # ── Issue types ────────────────────────────────────────────────
+          create_label "user-story"    "0075ca" "User story from the product backlog"
+          create_label "bug"           "d73a4a" "Something is not working as expected"
+          create_label "task"          "e4e669" "Technical task or chore"
+          create_label "tech-debt"     "fbca04" "Technical debt to be addressed"
+          create_label "spike"         "c5def5" "Time-boxed investigation / research"
+          create_label "epic"          "3e4b9e" "Large body of work grouping stories"
+
+          # ── Status ────────────────────────────────────────────────────
+          create_label "backlog"       "bfd4f2" "In the product backlog, not yet scheduled"
+          create_label "ready"         "0e8a16" "Meets Definition of Ready – can be picked up"
+          create_label "in-progress"   "f9d0c4" "Actively being worked on"
+          create_label "in-review"     "fef2c0" "Awaiting PR review"
+          create_label "done"          "0e8a16" "Meets Definition of Done – merged/closed"
+          create_label "blocked"       "b60205" "Cannot proceed – dependency or blocker"
+          create_label "needs-triage"  "ee0701" "Needs priority/severity assessment"
+
+          # ── Priority ──────────────────────────────────────────────────
+          create_label "priority:critical" "b60205" "Blocks sprint goal"
+          create_label "priority:high"     "e11d48" "Key deliverable for this sprint"
+          create_label "priority:medium"   "f97316" "Important but not urgent"
+          create_label "priority:low"      "84cc16" "Nice-to-have / future sprint"
+
+          # ── Components ────────────────────────────────────────────────
+          create_label "appliance"    "1d76db" "Raspberry Pi 5 edge controller"
+          create_label "assistant"    "0052cc" "PC / AIOps server"
+          create_label "shared"       "006b75" "Shared utilities (both components)"
+          create_label "ci-cd"        "5319e7" "CI/CD workflows and tooling"
+          create_label "docs"         "cfd3d7" "Documentation"
+
+          # ── Epics ─────────────────────────────────────────────────────
+          create_label "EP-001"  "d4c5f9" "Perception & Telemetry"
+          create_label "EP-002"  "c2e0c6" "Decision & Learning"
+          create_label "EP-003"  "ffd580" "Governance & Safety"
+          create_label "EP-004"  "f9c3ae" "Execution & Automation"
+          create_label "EP-005"  "bfd4f2" "Memory & Retrieval"
+          create_label "EP-006"  "e4c9f3" "Admin UI & UX"
+          create_label "EP-007"  "c5def5" "Integration & Testing"
+
+          # ── Sprint ────────────────────────────────────────────────────
+          create_label "sprint:0"  "ededed" "Sprint 0 – Offline Foundations"
+          create_label "sprint:1"  "ededed" "Sprint 1 – Post-Internet Foundations"
+          create_label "sprint:2"  "ededed" "Sprint 2 – Perception & Edge Basics"
+          create_label "sprint:3"  "ededed" "Sprint 3 – Edge Learning & MVP"
+          create_label "sprint:4"  "ededed" "Sprint 4 – Governance & Assistant Integration"
+          create_label "sprint:5"  "ededed" "Sprint 5 – Multi-Agent RL & UI"
+          create_label "sprint:6"  "ededed" "Sprint 6 – Testing & Validation"
+
+          echo "✅ Labels created/updated"
+
+  setup-milestones:
+    name: Create Milestones (Sprints)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create sprint milestones
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          create_milestone() {
+            local title="$1" due="$2" description="$3"
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              "/repos/$GITHUB_REPOSITORY/milestones" \
+              -f title="$title" \
+              -f due_on="${due}T00:00:00Z" \
+              -f description="$description" \
+              -f state="open" 2>/dev/null || \
+            echo "Milestone '$title' may already exist – skipping"
+          }
+
+          create_milestone \
+            "Sprint 0 – Offline Foundations" \
+            "2026-03-16" \
+            "Goal: Set up monorepo structure, stubs, and docs. 10 points."
+
+          create_milestone \
+            "Sprint 1 – Post-Internet Foundations" \
+            "2026-03-30" \
+            "Goal: Sync repo, install deps, run/test stubs. 15 points."
+
+          create_milestone \
+            "Sprint 2 – Perception & Edge Basics" \
+            "2026-04-13" \
+            "Goal: Complete Phase 1; integrate hardware. 20 points."
+
+          create_milestone \
+            "Sprint 3 – Edge Learning & MVP" \
+            "2026-04-27" \
+            "Goal: Phase 2 (Decision on edge); Appliance MVP. 25 points."
+
+          create_milestone \
+            "Sprint 4 – Governance & Assistant Integration" \
+            "2026-05-11" \
+            "Goal: MQTT sync, policy engine, Assistant integration. 30 points."
+
+          create_milestone \
+            "Sprint 5 – Multi-Agent RL & UI" \
+            "2026-05-25" \
+            "Goal: GNN pushes, Vue dashboard. 35 points."
+
+          create_milestone \
+            "Sprint 6 – Testing & Validation" \
+            "2026-06-08" \
+            "Goal: Full QA, beta deploy. 25 points."
+
+          echo "✅ Milestones created"
+
+  setup-project:
+    name: Create GitHub Project Board
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create project and configure sprint fields
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch the repository owner
+          OWNER=$(gh repo view "$GITHUB_REPOSITORY" --json owner --jq '.owner.login')
+
+          # Create the project (GraphQL – Projects v2)
+          PROJECT_ID=$(gh api graphql \
+            -f query='mutation($owner:String!, $title:String!) {
+              createProjectV2(input: {ownerId: $owner, title: $title}) {
+                projectV2 { id }
+              }
+            }' \
+            -f owner="$OWNER" \
+            -f title="Network-Chan AGILE Board" \
+            --jq '.data.createProjectV2.projectV2.id' 2>/dev/null) || true
+
+          if [ -z "$PROJECT_ID" ]; then
+            echo "ℹ️  Could not create project via GraphQL (may need org-level token). Skipping project creation."
+            echo "    → Create the project manually at: https://github.com/$GITHUB_REPOSITORY/projects"
+            exit 0
+          fi
+
+          echo "PROJECT_ID=$PROJECT_ID"
+
+          # Add a single-select Sprint field
+          gh api graphql \
+            -f query='mutation($proj:ID!, $name:String!, $type:ProjectV2CustomFieldType!) {
+              addProjectV2Field(input: {projectId: $proj, name: $name, dataType: $type}) {
+                projectV2Field { ... on ProjectV2SingleSelectField { id } }
+              }
+            }' \
+            -f proj="$PROJECT_ID" \
+            -f name="Sprint" \
+            -f type="SINGLE_SELECT" 2>/dev/null || true
+
+          # Add a numeric Story Points field
+          gh api graphql \
+            -f query='mutation($proj:ID!, $name:String!, $type:ProjectV2CustomFieldType!) {
+              addProjectV2Field(input: {projectId: $proj, name: $name, dataType: $type}) {
+                projectV2Field { ... on ProjectV2Field { id } }
+              }
+            }' \
+            -f proj="$PROJECT_ID" \
+            -f name="Story Points" \
+            -f type="NUMBER" 2>/dev/null || true
+
+          # Add a text Epic field
+          gh api graphql \
+            -f query='mutation($proj:ID!, $name:String!, $type:ProjectV2CustomFieldType!) {
+              addProjectV2Field(input: {projectId: $proj, name: $name, dataType: $type}) {
+                projectV2Field { ... on ProjectV2Field { id } }
+              }
+            }' \
+            -f proj="$PROJECT_ID" \
+            -f name="Epic" \
+            -f type="TEXT" 2>/dev/null || true
+
+          echo "✅ Project board created with custom fields"
+          echo "   Board URL: https://github.com/orgs/$OWNER/projects"

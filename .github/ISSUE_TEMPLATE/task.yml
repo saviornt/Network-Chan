@@ -1,0 +1,101 @@
+name: 🔧 Task / Technical Debt
+description: Create a technical task, chore, or tech-debt item.
+title: "[TK] "
+labels: ["task", "backlog"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Technical Task
+        Use this template for infrastructure work, refactors, tooling improvements, or tech-debt items that do not directly deliver end-user value but are necessary for maintainability, performance, or safety.
+
+  - type: input
+    id: task_id
+    attributes:
+      label: Task ID
+      description: "Identifier from the backlog (e.g. TK-005)."
+      placeholder: "TK-XXX"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - "Refactor / code quality"
+        - "CI/CD / tooling"
+        - "Documentation"
+        - "Dependency upgrade"
+        - "Performance optimisation"
+        - "Security hardening"
+        - "Testing / coverage"
+        - "Infrastructure / deployment"
+        - "Tech debt"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      multiple: true
+      options:
+        - "appliance/ (Raspberry Pi 5 edge controller)"
+        - "assistant/ (PC / AIOps server)"
+        - "shared/ (shared utilities)"
+        - "docs/ (documentation)"
+        - "scripts/ (deployment & tooling)"
+        - "CI/CD (.github/)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What needs to be done and why?
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - [ ] MyPy strict checks pass with no ignores
+        - [ ] Ruff lint returns zero warnings
+        - [ ] Coverage ≥ 80 %
+    validations:
+      required: true
+
+  - type: dropdown
+    id: points
+    attributes:
+      label: Story Points (Fibonacci)
+      options:
+        - "1"
+        - "2"
+        - "3"
+        - "5"
+        - "8"
+    validations:
+      required: true
+
+  - type: input
+    id: sprint
+    attributes:
+      label: Target Sprint
+      placeholder: "Sprint X"
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Any prerequisite issues or external blockers.
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
