@@ -25,7 +25,7 @@ dependencies = [
 
     # LLM & RAG tooling (local/offline focus per vision.md)
     "ollama >= 0.4",                    # Local LLM server/client
-    "langchain >= 0.3",                 # Orchestration & chains
+    "langchain >= 1.2.12",              # Orchestration & chains
     "langchain-community >= 0.3",       # Community integrations
 
     # ML / GNN / training (heavier deps here — central only)
