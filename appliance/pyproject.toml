@@ -1,8 +1,46 @@
 [project]
 name = "network-chan-appliance"
 version = "0.1.0"
-description = "Network-Chan edge MLOps controller (Rasberry Pi)"
-dependencies = [
-    "network-chan-shared @ git+https://github.com/SaviorNT/Network-Chan.git#subdirectory=shared",
+description = "Network-Chan edge MLOps controller for Raspberry Pi 5 (real-time telemetry, TinyML, remediation)"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.12"
+license = { text = "MIT" }  # Align with shared
+authors = [{ name = "Dave", email = "your-email@example.com" }]
+keywords = ["aiops", "sdn", "edge-ml", "raspberry-pi", "network-automation"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: System :: Networking :: Monitoring",
 ]
 
+dependencies = [
+    # Core shared package (pulled from git subdir during remote install)
+    "network-chan-shared @ git+https://github.com/SaviorNT/Network-Chan.git#subdirectory=shared",
+
+    # Web/API (local dashboard on Pi)
+    "jinja2>=3.1.6",
+
+    # Observability
+    "prometheus-client>=0.24.1",
+    "psutil>=7.2.2",
+
+    # Telemetry & device control
+    "pysnmp>=7.1.22",
+    "netmiko>=4.6.0",
+
+    # TinyML inference
+    "onnxruntime>=1.24.3",
+]
+
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"*" = ["*.pyi", "*.typed"]

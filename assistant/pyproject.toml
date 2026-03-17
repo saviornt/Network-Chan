@@ -1,0 +1,54 @@
+[project]
+name = "network-chan-assistant"
+version = "0.1.0"
+description = "Network-Chan central AIOps platform (LLM assistant, RAG, governance, full Vue dashboard)"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Dave", email = "your-email@example.com" }]
+keywords = ["aiops", "mlops", "netops", "sdn", "llm", "rag", "network-automation"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: System :: Networking :: Monitoring",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    # Shared foundation (FastAPI, uvicorn, auth, MQTT, structlog, tenacity, pydantic, etc.)
+    "network-chan-shared @ git+https://github.com/SaviorNT/Network-Chan.git#subdirectory=shared",
+
+    # GPU-accelerated FAISS for efficient RAG vector search (CUDA 12.x compatible)
+    "faiss-gpu-cu12 >= 1.14",
+
+    # LLM & RAG tooling (local/offline focus per vision.md)
+    "ollama >= 0.4",                    # Local LLM server/client
+    "langchain >= 0.3",                 # Orchestration & chains
+    "langchain-community >= 0.3",       # Community integrations
+
+    # ML / GNN / training (heavier deps here — central only)
+    "torch >= 2.5",                     # PyTorch core
+    "torch-geometric >= 2.7",           # GNN topology reasoning
+    "networkx >= 3.6",
+    "numpy >= 2.4.3",
+
+    # Reporting / exports
+    "reportlab >= 4.2",                 # PDF reports
+    "pandas >= 2.2",                    # Analytics / dataframes
+
+    # Extra resilience & utils
+    "tenacity >= 9.0",                  # Already in shared, explicit ok
+]
+
+[build-system]
+requires = ["setuptools >= 75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"*" = ["*.pyi", "*.typed"]
