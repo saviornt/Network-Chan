@@ -27,7 +27,7 @@ class RLAction(NetworkChanBaseModel):
         "change_channel",
         "reassign_client",
         "throttle_bandwidth",
-        "reboot_ap",
+        "reboot_device",
         "reset_interface",
     ]
     target: str = Field(min_length=1, description="Device/interface/client target")
