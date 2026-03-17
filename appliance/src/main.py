@@ -4,7 +4,7 @@ from typing import Any, NoReturn
 
 import numpy as np  # For states in RL
 
-from shared.src.config.settings import app_settings
+from shared.src.config.shared_settings import app_settings
 
 from .governance.policy_engine import PolicyEngine
 from .ml.qlearn_rl import QLearningAgent
@@ -32,13 +32,15 @@ async def run_audit_scheduler(audit: SecurityAudit) -> None:
         case "auto":
             while True:
                 # Mock AI trigger: E.g., low traffic (cpu < 20%)
-                mock_traffic_low = np.random.rand() < 0.3   # 30% chance to trigger
+                mock_traffic_low = np.random.rand() < 0.3  # 30% chance to trigger
                 if mock_traffic_low:
                     logger.info("Security audit triggered by low traffic")
                     await audit.perform_audit()
                 await asyncio.sleep(3600)  # Every hour
         case _:
-            logger.warning(f"Unknown audit mode: {mode} - defaulting to off-peak scheduling")
+            logger.warning(
+                f"Unknown audit mode: {mode} - defaulting to off-peak scheduling"
+            )
             await audit.schedule_audit()
 
 
@@ -66,24 +68,36 @@ async def run_loop() -> NoReturn:
 
                     # TinyGNN: Mock graph from metrics: Features as cpu reshaped, adjacency as identity (simple nodes)
                     num_nodes = len(cpu_values)
-                    features: np.ndarray = np.array(cpu_values).reshape(num_nodes, 1)  # 1-dim features per node
+                    features: np.ndarray = np.array(cpu_values).reshape(
+                        num_nodes, 1
+                    )  # 1-dim features per node
                     adjacency: np.ndarray = np.eye(num_nodes)  # Mock connected graph
                     embedding: np.ndarray = await gnn.embed_graph(features, adjacency)
 
                     # Q-Learning: Use embedding to augment/augment RL state (flatten/truncate to dim), select action and update with reward
-                    mock_state: np.ndarray = embedding.flatten()[:agent.state_dim]
+                    mock_state: np.ndarray = embedding.flatten()[: agent.state_dim]
                     if mock_state.size < agent.state_dim:
-                        mock_state = np.pad(mock_state, (0, agent.state_dim - mock_state.size))  # Pad if short
+                        mock_state = np.pad(
+                            mock_state, (0, agent.state_dim - mock_state.size)
+                        )  # Pad if short
                     action: int = await agent.select_action(mock_state)
-                    logger.debug(f"RL Action selected: {action}")                
-                    mock_reward: float = -1.0 if anomaly else 1.0  # Negative for anomaly
-                    mock_next_state: np.ndarray = np.random.rand(agent.state_dim)  # Simulate next
+                    logger.debug(f"RL Action selected: {action}")
+                    mock_reward: float = (
+                        -1.0 if anomaly else 1.0
+                    )  # Negative for anomaly
+                    mock_next_state: np.ndarray = np.random.rand(
+                        agent.state_dim
+                    )  # Simulate next
                     await agent.update(mock_state, action, mock_reward, mock_next_state)
 
                     # Policy Governance
-                    approved, msg = await engine.approve_action("remediate_flap")  # Mock action
+                    approved, msg = await engine.approve_action(
+                        "remediate_flap"
+                    )  # Mock action
                     if approved:
-                        success, rem_msg = await daemon.execute_action("remediate_flap", {"param": "value"})
+                        success, rem_msg = await daemon.execute_action(
+                            "remediate_flap", {"param": "value"}
+                        )
                         logger.info(f"Remediation: {rem_msg}")
                         if not success:
                             await daemon.rollback_action("remediate_flap")
@@ -93,7 +107,10 @@ async def run_loop() -> NoReturn:
                 # Periodic REPTILE adaptation (e.g., every 5 cycles)
                 cycle_count += 1
                 if cycle_count % 5 == 0:
-                    mock_tasks: list[dict[str, Any]] = [{"data": np.random.rand(10), "labels": np.random.rand(10)} for _ in range(3)]
+                    mock_tasks: list[dict[str, Any]] = [
+                        {"data": np.random.rand(10), "labels": np.random.rand(10)}
+                        for _ in range(3)
+                    ]
                     await meta_learner.adapt_to_tasks(mock_tasks)
                     logger.info("REPTILE adaptation complete")
 

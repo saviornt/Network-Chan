@@ -7,7 +7,7 @@ from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 from typing import Any
 
-from shared.src.config.settings import app_settings
+from shared.src.config.shared_settings import app_settings
 
 
 class JSONFormatter(logging.Formatter):
@@ -31,14 +31,18 @@ def setup_logging(level: str | None = None) -> logging.Logger:
     logger.setLevel(getattr(logging, level.upper()))
 
     # Create logs dir if not exists
-    logs_dir: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
+    logs_dir: str = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs"
+    )
     if not os.path.exists(logs_dir):
         os.makedirs(logs_dir)
 
     # Daily rotating file: Log-YYYY-MM-DD.log
     today = datetime.now().strftime("%Y-%m-%d")
     log_file: str = os.path.join(logs_dir, f"Log-{today}.log")
-    handler = TimedRotatingFileHandler(log_file, when="midnight", backupCount=90)  # Keeps 90 days
+    handler = TimedRotatingFileHandler(
+        log_file, when="midnight", backupCount=90
+    )  # Keeps 90 days
     handler.setFormatter(JSONFormatter(datefmt="%Y-%m-%d %H:%M:%S"))
     logger.addHandler(handler)
 
@@ -47,7 +51,9 @@ def setup_logging(level: str | None = None) -> logging.Logger:
 
 def prune_logs() -> None:
     """Prune logs older than config.prune_days."""
-    logs_dir: str = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs")
+    logs_dir: str = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "logs"
+    )
     if not os.path.exists(logs_dir):
         return
 

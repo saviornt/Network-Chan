@@ -1,0 +1,8 @@
+[project]
+name = "network-chan-appliance"
+version = "0.1.0"
+description = "Network-Chan edge MLOps controller (Rasberry Pi)"
+dependencies = [
+    "network-chan-shared @ git+https://github.com/SaviorNT/Network-Chan.git#subdirectory=shared",
+]
+

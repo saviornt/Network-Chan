@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Tuple
 
 import networkx as nx
 
-from src.config.settings import settings
+from shared.src.config.shared_settings import settings
 from src.models.rl import RLObservation
 
 logger = logging.getLogger(__name__)

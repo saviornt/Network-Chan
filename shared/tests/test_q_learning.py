@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-from src.config.settings import settings
+from shared.src.config.shared_settings import settings
 from src.ml.rl.q_learning import (
     epsilon_greedy_action,
     get_discrete_state,

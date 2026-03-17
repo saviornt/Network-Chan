@@ -16,8 +16,9 @@ import re
 from typing import Any, Dict, List, Literal
 
 import pyotp
-from config.settings import AutonomyLevel, settings
 from pydantic import BaseModel, Field
+
+from shared.src.config.shared_settings import AutonomyLevel, shared_settings
 
 
 class UserContext(BaseModel):
@@ -75,7 +76,7 @@ def redact_pii(value: Any, deep: bool = True) -> Any:
 def is_action_allowed(
     action_name: str,
     user: UserContext,
-    current_autonomy: AutonomyLevel = settings.autonomous_mode,
+    current_autonomy: AutonomyLevel = shared_settings.autonomous_mode,
 ) -> bool:
     """Check if a given action is permitted under current autonomy mode and user roles.
 

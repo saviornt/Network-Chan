@@ -4,7 +4,7 @@ import asyncio
 
 from numba import jit  # type: ignore
 
-from shared.src.config.settings import AUTONOMOUS_MODES, app_settings
+from shared.src.config.shared_settings import AUTONOMOUS_MODES, app_settings
 
 
 @jit(nopython=True)  # type: ignore[misc]
@@ -16,7 +16,9 @@ class PolicyEngine:
     def __init__(self) -> None:
         self.autonomy_levels: list[int] = list(AUTONOMOUS_MODES.keys())
         self.role: str = app_settings.role
-        self.whitelist: dict[str, bool] = {action: True for action in app_settings.whitelist_actions}
+        self.whitelist: dict[str, bool] = {
+            action: True for action in app_settings.whitelist_actions
+        }
         self.current_level: int = app_settings.autonomous_mode
 
     async def approve_action(self, action: str) -> tuple[bool, str]:

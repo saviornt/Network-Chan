@@ -3,7 +3,7 @@
 from unittest.mock import patch
 
 import pytest
-from src.config.settings import Settings
+from shared.src.config.shared_settings import Settings
 
 
 @pytest.fixture(autouse=True)

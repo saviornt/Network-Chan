@@ -1,0 +1,11 @@
+[project]
+name = "network-chan-shared"
+version = "0.1.0"
+description = "Shared code (settings, models, utils, etc.) for Network-Chan"
+dependencies = [
+    "pydantic>=2.0",
+    "pydantic-settings>=2.0",
+    "numba",
+]
+[tool.setuptools.packages.find]
+where = ["src"]

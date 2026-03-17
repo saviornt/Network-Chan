@@ -39,7 +39,7 @@ class AutonomyLevel(IntEnum):
     EXPERIMENTAL = 5  # Bleeding-edge / research mode (no safety nets)
 
 
-class Settings(BaseSettings):
+class SharedSettings(BaseSettings):
     """Network-Chan global settings — single source of truth for both Appliance & Assistant.
 
     Loaded automatically. Access via `settings.<field>`.
@@ -255,7 +255,7 @@ class Settings(BaseSettings):
         return v
 
     @model_validator(mode="after")
-    def validate_autonomy_constraints(self) -> Settings:
+    def validate_autonomy_constraints(self) -> SharedSettings:
         """Enforce safety rules on autonomy level."""
         if self.autonomous_mode >= AutonomyLevel.AUTONOMOUS and not self.is_edge_device:
             # Optional: raise ValueError("Full autonomy only allowed on edge Appliance")
@@ -264,11 +264,11 @@ class Settings(BaseSettings):
 
 
 # Singleton instance — import and use directly
-settings: Settings = Settings()
+shared_settings: SharedSettings = SharedSettings()
 
 
 __all__ = [
-    "settings",
-    "Settings",
+    "shared_settings",
+    "SharedSettings",
     "AutonomyLevel",
 ]
