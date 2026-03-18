@@ -28,3 +28,8 @@ jobs:
               issue_number: issue.number,
               labels: ['needs-triage']
             });
+
+            // If title contains "Bug:" → add bug label
+            if (issue.title.toLowerCase().includes('bug')) {
+              await github.rest.issues.addLabels({ ... , labels: ['bug'] });
+            };
