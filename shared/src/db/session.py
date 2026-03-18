@@ -11,7 +11,7 @@ from typing import AsyncGenerator
 
 import aiosqlite
 
-from shared.src.config.shared_settings import settings
+from src.config.shared_settings import settings
 
 
 @asynccontextmanager

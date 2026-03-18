@@ -53,9 +53,9 @@ What needs to be done? Why? Any context or motivation.
 
 List the specific, testable outcomes that mean this issue is done.
 
-- [ ] Criterion 1
-- [ ] Criterion 2
-- [ ] Criterion 3
+- [ ] Criterion_1
+- [ ] Criterion_2
+- [ ] Criterion_3
 
 ## Blocker / Dependencies
 

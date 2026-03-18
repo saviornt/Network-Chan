@@ -4,7 +4,7 @@ These functions compute scalar or component-wise rewards from network observatio
 They are designed to be extremely fast on edge devices (Raspberry Pi 5 Appliance)
 using Numba's njit compilation.
 
-All functions accept or return models from shared.models.rl (e.g. RLObservation → RewardSignal).
+All functions accept or return models from src.models.rl (e.g. RLObservation → RewardSignal).
 """
 
 from __future__ import annotations

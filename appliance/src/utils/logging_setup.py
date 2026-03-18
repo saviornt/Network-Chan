@@ -7,7 +7,7 @@ from datetime import datetime
 from logging.handlers import TimedRotatingFileHandler
 from typing import Any
 
-from shared.src.config.shared_settings import app_settings
+from src.config.shared_settings import app_settings
 
 
 class JSONFormatter(logging.Formatter):

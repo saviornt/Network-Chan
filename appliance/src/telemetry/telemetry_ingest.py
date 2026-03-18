@@ -7,7 +7,7 @@ from typing import Any
 import numpy as np  # Add for arrays
 from numba import jit  # type: ignore
 
-from shared.src.db.schemas import init_db  # Shared dep
+from src.db.schemas import init_db  # Shared dep
 
 
 @jit(nopython=True)  # type: ignore[misc]

@@ -4,7 +4,7 @@ import asyncio
 
 from numba import jit  # type: ignore
 
-from shared.src.config.shared_settings import AUTONOMOUS_MODES, app_settings
+from src.config.shared_settings import AUTONOMOUS_MODES, app_settings
 
 
 @jit(nopython=True)  # type: ignore[misc]

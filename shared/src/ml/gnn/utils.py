@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List, Tuple
 
-from shared.src.config.shared_settings import settings
+from src.config.shared_settings import settings
 
 logger = logging.getLogger(__name__)
 

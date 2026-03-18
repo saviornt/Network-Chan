@@ -15,7 +15,7 @@ from typing import Dict, List
 import numba as nb
 import numpy as np
 
-from shared.src.config.shared_settings import Settings
+from src.config.shared_settings import Settings
 from src.models.rl import RLObservation
 
 

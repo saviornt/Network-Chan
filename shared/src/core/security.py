@@ -18,7 +18,7 @@ from typing import Any, Dict, List, Literal
 import pyotp
 from pydantic import BaseModel, Field
 
-from shared.src.config.shared_settings import AutonomyLevel, shared_settings
+from src.config.shared_settings import AutonomyLevel, shared_settings
 
 
 class UserContext(BaseModel):
