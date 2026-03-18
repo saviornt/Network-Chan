@@ -13,6 +13,10 @@ Quick guide:
 - Fill acceptance criteria — keep it short & testable
 -->
 
+## Description
+
+What needs to be done? Why? Any context or motivation.
+
 ## Type
 
 - [ ] Epic
@@ -44,10 +48,6 @@ Quick guide:
 - [ ] High (do this burst/week)
 - [ ] Medium
 - [ ] Low
-
-## Description
-
-What needs to be done? Why? Any context or motivation.
 
 ## Acceptance Criteria
 
