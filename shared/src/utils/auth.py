@@ -1,15 +1,27 @@
 """Shared authentication utilities for Network-Chan.
 
-Provides JWT encoding/decoding, TOTP generation/verification, and FastAPI dependencies.
+Provides JWT encoding/decoding, TOTP generation/verification, password strength validation,
+and FastAPI dependencies.
+
+Password validation follows modern NIST SP 800-63B and NSA recommendations:
+- Minimum length (12+ chars recommended)
+- No forced composition rules
+- Blacklist common/breached passwords
+- Entropy estimation via zxcvbn
+- User-friendly feedback for setup/change-password flows
+
+All utilities are designed to be reusable across Appliance and Assistant.
 """
 
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+from typing import List, Optional, Tuple
 
 import pyotp
+import zxcvbn
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from passlib.context import CryptContext
 
 from shared.src.config.auth_settings import auth_settings
 from shared.src.models.auth_model import TokenResponse, CurrentUser
@@ -18,6 +30,151 @@ from shared.src.utils.logging_factory import get_logger
 logger = get_logger(__name__)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")  # Update path as needed
+pwd_context = CryptContext(
+    schemes=["argon2"],
+    deprecated="auto",
+    argon2_type="id",
+    argon2__time_cost=auth_settings.argon2_time_cost,
+    argon2__memory_cost=auth_settings.argon2_memory_cost,
+    argon2__parallelism=auth_settings.argon2_parallelism,
+    argon2__hash_len=32,  # 256-bit output
+)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Password Hashing (Argon2id – NIST/NSA preferred)
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def hash_password(password: str) -> str:
+    """
+    Hash a plaintext password using Argon2id (NIST-preferred memory-hard function).
+
+    Returns:
+        str: Argon2id-encoded hash string
+    """
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify a plaintext password against an Argon2id hash.
+
+    Returns:
+        bool: True if the password matches the hash
+    """
+    return pwd_context.verify(plain_password, hashed_password)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Password Strength Validation (NIST SP 800-63B compliant)
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+class PasswordValidationError(Exception):
+    """Raised when password fails validation."""
+
+
+class PasswordValidator:
+    """
+    Validates password strength according to modern NIST/NSA recommendations.
+
+    Usage:
+        is_valid, feedback = password_validator.validate("my-very-long-password-2026")
+    """
+
+    def __init__(self):
+        # Load common passwords (can be extended with HIBP-style list in production)
+        self.common_passwords: set[str] = {
+            "password",
+            "123456",
+            "admin",
+            "letmein",
+            "qwerty",
+            "welcome",
+            # Add ~10,000 most common ones in production (from rockyou.txt, etc.)
+        }
+
+    def validate(
+        self,
+        password: str,
+        username: Optional[str] = None,
+        user_data: Optional[List[str]] = None,
+    ) -> Tuple[bool, List[str]]:
+        """
+        Validate password strength.
+
+        Args:
+            password: The password to check
+            username: Optional username (to prevent password == username)
+            user_data: Optional list of other data (email, phone, etc.) to check against
+
+        Returns:
+            Tuple[bool, List[str]]: (is_valid, list of failure reasons or success hints)
+        """
+        feedback: List[str] = []
+
+        # 1. Minimum length
+        if len(password) < 12:
+            feedback.append("Password must be at least 12 characters long.")
+        elif len(password) >= 16:
+            feedback.append("Good length! Longer passwords are much stronger.")
+
+        # 2. Not too common
+        if password.lower() in self.common_passwords:
+            feedback.append("This password is too common and has likely been breached.")
+
+        # 3. Not based on username or personal data
+        if username and password.lower() == username.lower():
+            feedback.append("Password should not be the same as your username.")
+        if user_data:
+            for item in user_data:
+                if item and password.lower() == item.lower():
+                    feedback.append("Password should not match personal information.")
+
+        # 4. Entropy estimation (zxcvbn)
+        result = zxcvbn.zxcvbn(
+            password,
+            user_inputs=[username] + (user_data or []) if username else [],
+        )
+
+        if result["score"] < 3:
+            feedback.append(
+                f"Password strength is weak (score {result['score']}/4). "
+                "Consider adding more unique words or length."
+            )
+        elif result["score"] >= 4:
+            feedback.append("Strong password!")
+
+        # Final decision (length + score + blacklist)
+        is_valid = (
+            len(password) >= 12
+            and result["score"] >= 3
+            and password.lower() not in self.common_passwords
+        )
+
+        return is_valid, feedback
+
+
+# Singleton instance
+password_validator = PasswordValidator()
+
+
+def validate_password(
+    password: str,
+    username: Optional[str] = None,
+    user_data: Optional[List[str]] = None,
+) -> Tuple[bool, List[str]]:
+    """
+    Convenience function: validate password using the shared validator.
+
+    Returns (is_valid, feedback list).
+    """
+    return password_validator.validate(password, username, user_data)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# JWT (session / API tokens)
+# ──────────────────────────────────────────────────────────────────────────────
 
 
 def create_access_token(
@@ -26,7 +183,9 @@ def create_access_token(
     expires_delta: timedelta | None = None,
 ) -> TokenResponse:
     """
-    Generate a new JWT access token (and optional refresh token).
+    Generate a new JWT access token.
+
+    Returns TokenResponse with access_token and expiration details.
     """
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -59,6 +218,8 @@ def create_access_token(
 def decode_access_token(token: str) -> CurrentUser:
     """
     Decode and validate JWT token, return authenticated user info.
+
+    Raises HTTPException on failure.
     """
     try:
         payload = jwt.decode(
@@ -66,9 +227,11 @@ def decode_access_token(token: str) -> CurrentUser:
             auth_settings.jwt_secret.get_secret_value(),
             algorithms=[auth_settings.jwt_algorithm],
         )
-        username: str = payload.get("sub")
+        username = payload.get("sub")
         if username is None:
-            raise JWTError("Missing subject")
+            raise JWTError("Missing subject claim in token payload")
+        if not isinstance(username, str):
+            raise JWTError("Subject claim is not a string")
         return CurrentUser(
             username=username,
             scopes=payload.get("scopes", []),

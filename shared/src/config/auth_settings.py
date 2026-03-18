@@ -8,6 +8,8 @@ Example:
     export AUTH__TOTP_ISSUER=Network-Chan
 """
 
+from typing import Literal
+
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -43,7 +45,7 @@ class AuthSettings(BaseSettings):
     # JWT (session / API tokens)
     # ──────────────────────────────────────────────────────────────────────────────
     jwt_secret: SecretStr = Field(
-        ...,
+        default=...,
         min_length=32,
         description=(
             "Secret key used to sign and verify JWT tokens. "
@@ -93,6 +95,40 @@ class AuthSettings(BaseSettings):
         description=(
             "Initial TOTP secret for admin user. Set only once during setup, "
             "then store encrypted in database. Leave empty after initial configuration."
+        ),
+    )
+
+    # ──────────────────────────────────────────────────────────────────────────────
+    # Password Hashing (Argon2id – NIST/NSA preferred)
+    # ──────────────────────────────────────────────────────────────────────────────
+    password_hashing_scheme: Literal["argon2"] = Field(
+        default="argon2",
+        description="Password hashing scheme (argon2 is the only supported production option)",
+    )
+    argon2_time_cost: int = Field(
+        default=2,
+        ge=1,
+        le=10,
+        description=(
+            "Argon2 time cost (iterations). Lower on Pi (1–3), higher on PC (3–6). "
+            "Target ~0.5–1 second hashing time."
+        ),
+    )
+    argon2_memory_cost: int = Field(
+        default=65536,  # 64 MiB
+        ge=32768,  # 32 MiB minimum
+        le=1048576,  # 1 GiB maximum (Pi-safe upper limit)
+        description=(
+            "Argon2 memory cost in KiB. Lower on Pi (32768–65536), higher on PC (131072+). "
+            "Memory-hardness is key to resistance against GPU/ASIC attacks."
+        ),
+    )
+    argon2_parallelism: int = Field(
+        default=4,
+        ge=1,
+        le=8,
+        description=(
+            "Argon2 parallelism (threads). Keep modest on Pi (2–4), can go higher on PC (4–8)."
         ),
     )
 

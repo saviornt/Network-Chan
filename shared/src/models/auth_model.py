@@ -8,8 +8,6 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from shared.src.utils.auth import TokenData  # We'll create this later
-
 
 class LoginRequest(BaseModel):
     """
@@ -35,6 +33,16 @@ class TokenResponse(BaseModel):
     refresh_token: Optional[str] = Field(
         default=None,
         description="Refresh token (if implemented)",
+    )
+
+
+class TokenData(BaseModel):
+    """Decoded JWT payload / authenticated user claims."""
+
+    sub: str = Field(..., description="Subject — usually username or user ID")
+    exp: datetime = Field(..., description="Expiration timestamp")
+    scopes: list[str] = Field(
+        default_factory=list, description="Granted permissions/scopes"
     )
 
 

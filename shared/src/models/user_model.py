@@ -2,9 +2,6 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field
-from passlib.context import CryptContext  # or bcrypt
-
-pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 
 class UserBase(BaseModel):
@@ -17,7 +14,14 @@ class UserCreate(UserBase):
 
 
 class UserInDB(UserBase):
-    id: int
+    """
+    Full user record as stored in the database.
+    """
+
+    id: Optional[int] = Field(
+        default=None,
+        description="Auto-incremented primary key (assigned by DB)",
+    )
     hashed_password: str
     totp_secret: Optional[str] = None  # encrypted base32 secret
     totp_enabled: bool = False
@@ -26,15 +30,9 @@ class UserInDB(UserBase):
 
 
 class User(UserBase):
-    """Public user info (no secrets)"""
+    """
+    Public user info (no secrets)
+    """
 
     id: int
     totp_enabled: bool
-
-
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def verify_password(plain: str, hashed: str) -> bool:
-    return pwd_context.verify(plain, hashed)

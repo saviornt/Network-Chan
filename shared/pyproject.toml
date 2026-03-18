@@ -31,7 +31,7 @@ dependencies = [
     "python-multipart>=0.0.22",
 
     # Auth & security
-    "passlib[bcrypt]>=1.7.4",
+    "passlib[argon2]>=1.7.4",
     "python-jose[cryptography]>=3.5.0",
     "pyjwt[crypto]>=2.12.1",
     "qrcode[pil]>=8.2",
@@ -43,7 +43,7 @@ dependencies = [
     "orjson>=3.11.7",                   # Fast JSON for MQTT payloads
 
     # Database
-    "aiosqlite>=0.22.1",                # Async SQLite for FAISS/incident DB
+    "sqlalchemy>=2.0.48",               # Async SQLite for FAISS/incident DB
     "faiss-cpu>=1.13.2",                # Vector DB for RAG/incident retrieval
 
     # ML Basics
@@ -64,6 +64,10 @@ dev = [
     "pre-commit>=4.0",
     "types-pyyaml",
     "types-setuptools",
+]
+db_migration = [
+    "alembic>=1.7.7",
+    "asyncpg>=0.25.0",                  # For async PostgreSQL if you switch from SQLite
 ]
 
 [build-system]
