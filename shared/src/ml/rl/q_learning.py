@@ -16,7 +16,7 @@ import numba as nb
 import numpy as np
 
 from src.config.shared_settings import Settings
-from src.models.rl import RLObservation
+from shared.src.models.rl_model import RLObservation
 
 
 @nb.njit(fastmath=True, cache=True)

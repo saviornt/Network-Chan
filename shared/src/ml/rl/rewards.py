@@ -13,7 +13,7 @@ from typing import Dict, List
 
 import numba as nb
 import numpy as np
-from models.rl import RewardSignal, RLObservation
+from shared.src.models.rl_model import RewardSignal, RLObservation
 
 
 @nb.njit(fastmath=True, cache=True)

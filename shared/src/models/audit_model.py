@@ -8,7 +8,7 @@ from typing import Any
 
 from pydantic import Field
 
-from .base import NetworkChanBaseModel
+from .base_model import NetworkChanBaseModel
 
 
 class AuditEvent(NetworkChanBaseModel):

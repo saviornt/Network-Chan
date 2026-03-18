@@ -8,14 +8,17 @@ All payloads are validated before publish or after receive.
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Literal
+from pathlib import Path
+from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import Field, Json, field_validator
+from pydantic import Field, Json, field_validator, SecretStr
 
-from .base import NetworkChanBaseModel
-from .policy import PolicyDecision
-from .rl import RLAction
-from .telemetry import TelemetrySample
+from .base_model import NetworkChanBaseModel
+from .policy_model import PolicyDecision
+from .rl_model import RLAction
+from .telemetry_model import TelemetrySample
+from shared.src.config.mqtt_settings import mqtt_settings
+from shared.src.config.shared_settings import shared_settings
 
 
 class MqttMessageMetadata(NetworkChanBaseModel):
@@ -109,3 +112,57 @@ class MqttRawPayload(NetworkChanBaseModel):
     raw_payload: Json[Any] = Field(
         ..., description="Arbitrary JSON-serializable content"
     )
+
+
+class MqttClientOptions(NetworkChanBaseModel):
+    """
+    Validated runtime options for creating an MQTT client.
+
+    Aggregates settings from mqtt_settings + optional overrides.
+    Used as input to create_secure_mqtt_client().
+    """
+
+    hostname: str = Field(..., description="MQTT broker hostname or IP")
+    port: int = Field(..., ge=1, le=65535, description="Broker port")
+    client_id: str = Field(..., min_length=1, description="Unique client identifier")
+    username: Optional[str] = Field(default=None)
+    password: Optional[str] = Field(default=None)  # Plain str (SecretStr unwrapped)
+    tls_enabled: bool = Field(default=True)
+    ca_cert_path: Optional[Path] = Field(default=None)
+    client_cert_path: Optional[Path] = Field(default=None)
+    client_key_path: Optional[Path] = Field(default=None)
+    keepalive: int = Field(default=60, ge=1)
+    connect_timeout: float = Field(default=10.0, ge=1.0)
+
+    @field_validator("password", mode="before")
+    @classmethod
+    def unwrap_password(cls, v: Any) -> Optional[str]:
+        """Convert SecretStr to plain string if present."""
+        if isinstance(v, SecretStr):
+            return v.get_secret_value()
+        return v
+
+    @classmethod
+    def from_settings(
+        cls, overrides: dict[str, Any] | None = None
+    ) -> "MqttClientOptions":
+        """
+        Build options from mqtt_settings + optional runtime overrides.
+
+        Automatically formats client_id with app_env if template present.
+        """
+        data = mqtt_settings.model_dump(exclude_none=True)
+        if overrides:
+            data.update(overrides)
+
+        # Unwrap password if SecretStr
+        if mqtt_settings.password:
+            data["password"] = mqtt_settings.password.get_secret_value()
+
+        # Format client_id if it contains {app_env}
+        if "{app_env}" in data.get("client_id", ""):
+            data["client_id"] = data["client_id"].format(
+                app_env=shared_settings.app_env
+            )
+
+        return cls.model_validate(data)

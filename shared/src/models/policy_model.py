@@ -7,8 +7,8 @@ from typing import Literal
 
 from pydantic import Field, field_validator, model_validator
 
-from .base import NetworkChanBaseModel
-from .rl import RLAction, RLState
+from .base_model import NetworkChanBaseModel
+from .rl_model import RLAction, RLState
 
 
 class PolicyCheckRequest(NetworkChanBaseModel):

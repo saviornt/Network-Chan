@@ -7,7 +7,7 @@ from typing import Literal
 
 from pydantic import Field
 
-from .base import NetworkChanBaseModel
+from .base_model import NetworkChanBaseModel
 
 
 class AnomalyDetectionResult(NetworkChanBaseModel):

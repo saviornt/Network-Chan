@@ -8,9 +8,9 @@ from typing import Literal
 
 from pydantic import Field, model_validator
 
-from .anomaly import AnomalyDetectionResult
-from .base import NetworkChanBaseModel
-from .rl import RLAction
+from .anomaly_model import AnomalyDetectionResult
+from .base_model import NetworkChanBaseModel
+from .rl_model import RLAction
 
 
 class IncidentLogEntry(NetworkChanBaseModel):

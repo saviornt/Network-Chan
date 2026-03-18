@@ -7,7 +7,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from .base import NetworkChanBaseModel
+from .base_model import NetworkChanBaseModel
 
 
 class TelemetrySample(NetworkChanBaseModel):

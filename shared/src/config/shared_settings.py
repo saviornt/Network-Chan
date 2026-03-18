@@ -108,47 +108,8 @@ class SharedSettings(BaseSettings):
     )
 
     # =========================================================================
-    # Logging & Environment
+    # Environment
     # =========================================================================
-    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = Field(
-        default="INFO",
-        description="Python logging level",
-    )
-    log_destination: Literal["stdout", "file", "both"] = Field(
-        default="stdout",
-        description=(
-            "Where to send structured logs. "
-            "'stdout' → console/terminal only, "
-            "'file' → log file only, "
-            "'both' → console + file. "
-            "File location controlled by log_file_path."
-        ),
-    )
-    log_file_path: Path = Field(
-        default=Path("logs/network-chan.log"),
-        description=(
-            "Path to the log file (relative to data_dir if not absolute). "
-            "Only used when log_destination is 'file' or 'both'. "
-            "Parent directories are created automatically."
-        ),
-    )
-    log_rotation_when: Literal["midnight", "D", "H"] = Field(
-        default="midnight",
-        description=(
-            "When to rotate the log file. "
-            "'midnight' = rotate at midnight each day, "
-            "'D' = daily, 'H' = hourly"
-        ),
-    )
-    log_backup_count: int = Field(
-        default=7,
-        ge=0,
-        description=(
-            "Number of backup log files to keep. "
-            "Oldest files are deleted when exceeded. "
-            "0 = keep forever (not recommended on Pi)."
-        ),
-    )
     app_env: Literal["development", "staging", "production"] = Field(
         default="development",
         description="Runtime environment",
@@ -167,20 +128,6 @@ class SharedSettings(BaseSettings):
     )
     mlflow_tracking_uri: str = Field(
         default="sqlite:///mlruns.db", description="Local MLflow backend"
-    )
-
-    # =========================================================================
-    # MQTT Broker
-    # =========================================================================
-    mqtt_broker: str = Field(
-        default="localhost", description="Hostname/IP of MQTT broker"
-    )
-    mqtt_port: int = Field(default=1883, ge=1, le=65535)
-    mqtt_use_tls: bool = Field(default=True, description="Enable TLS (recommended)")
-    mqtt_username: str | None = None
-    mqtt_password: SecretStr | None = None
-    mqtt_client_id: str = Field(
-        default="network-chan-{app_env}", description="Unique client identifier"
     )
 
     # =========================================================================

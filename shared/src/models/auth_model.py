@@ -11,7 +11,7 @@ from typing import Literal
 
 from pydantic import EmailStr, Field, field_validator
 
-from .base import NetworkChanBaseModel  # Assuming you have the common base
+from .base_model import NetworkChanBaseModel  # Assuming you have the common base
 
 
 class UserBase(NetworkChanBaseModel):

@@ -12,7 +12,7 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 from pydantic import Field, field_validator
 
-from .base import MLBaseModel  # assuming you have a base in models/base.py
+from .base_model import MLBaseModel  # assuming you have a base in models/base.py
 
 
 class RLObservation(MLBaseModel):

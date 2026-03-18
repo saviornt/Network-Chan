@@ -14,7 +14,7 @@ from typing import List
 import numba as nb
 import numpy as np
 
-from src.models.rl import RewardSignal, RLAction
+from shared.src.models.rl_model import RewardSignal, RLAction
 
 
 @nb.njit(fastmath=True, cache=True)

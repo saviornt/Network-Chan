@@ -24,6 +24,7 @@ import structlog
 from logging.handlers import TimedRotatingFileHandler
 from pydantic import BaseModel, ConfigDict, field_validator
 
+from src.config.logging_settings import logging_settings
 from src.config.shared_settings import shared_settings
 
 
@@ -68,20 +69,20 @@ class StructuredLogging:
             "ERROR": logging.ERROR,
             "CRITICAL": logging.CRITICAL,
         }
-        numeric_level = level_map.get(shared_settings.log_level.upper(), logging.INFO)
+        numeric_level = level_map.get(logging_settings.level.upper(), logging.INFO)
 
         # Designation handlers
         handlers: list[logging.Handler] = []
 
         # Stdout handler
-        if shared_settings.log_destination in ("stdout", "both"):
+        if logging_settings.destination in ("stdout", "both"):
             stdout_handler = logging.StreamHandler(sys.stderr)
             stdout_handler.setLevel(numeric_level)
             handlers.append(stdout_handler)
 
         # File handler with timed rotation
-        if shared_settings.log_destination in ("file", "both"):
-            base_log_path: Path = shared_settings.log_file_path
+        if logging_settings.destination in ("file", "both"):
+            base_log_path: Path = logging_settings.file_path
 
             # Make relative to data_dir if not absolute
             if not base_log_path.is_absolute():
@@ -91,9 +92,9 @@ class StructuredLogging:
 
             file_handler = TimedRotatingFileHandler(
                 filename=str(base_log_path),
-                when=shared_settings.log_rotation_when,
+                when=logging_settings.rotation_when,
                 interval=1,
-                backupCount=shared_settings.log_backup_count,
+                backupCount=logging_settings.backup_count,
                 encoding="utf-8",
                 utc=False,  # local time for human-readable filenames
                 delay=True,
