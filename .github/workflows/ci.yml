@@ -26,21 +26,20 @@ jobs:
       - name: Create mypy cache
         run: mkdir -p .mypy_cache
 
-      - name: Lint with ruff & black
+      - name: Lint with ruff
         run: |
-          ruff check shared/ appliance/
-          black --check shared/ appliance/
+          ruff check shared/ appliance/ assistant/
 
       - name: Type check with mypy
         run: |
-          mypy shared/ appliance/ --strict --cache-dir .mypy_cache
+          mypy shared/ appliance/ assistant/ --strict --cache-dir .mypy_cache
 
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.12"]
-        package: ["shared", "appliance"]
+        package: ["shared", "appliance", "assistant"]
     steps:
       - uses: actions/checkout@v4
 
