@@ -1,0 +1,5 @@
+blank_issues_enabled: false          # Disables the default "Open blank issue"
+contact_links:
+  - name: Question or Discussion
+    url: https://github.com/SaviorNT/Network-Chan/discussions
+    about: For questions or general discussion, use Discussions instead
