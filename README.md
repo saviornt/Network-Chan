@@ -2,7 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
-
 [![Network-Chan Project Board](https://img.shields.io/badge/Project%20Board-View-blue?logo=github)](https://github.com/users/saviornt/projects/8)
 
 Private, autonomous SDN NetOps – edge intelligence meets central reasoning
@@ -115,4 +114,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Inspired by AIOps market trends and open-source tools like Ray, PyTorch Geometric, and Ollama.
 
-For questions, contact Dave (project owner). Last updated: March 17, 2026.
+Last updated: March 17, 2026.

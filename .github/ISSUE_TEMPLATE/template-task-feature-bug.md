@@ -1,14 +1,14 @@
 ---
 name: Task / Feature / Bug
 about: Use this for most new work items (tasks, features, bugs, refactorings)
-title: "[Focus Area] Short descriptive title"
+title: "[Focus_Area] Short descriptive title"
 labels: ["task", "needs-triage"]
 assignees: ["saviornt"]
 ---
 
 <!-- 
 Quick guide:
-- Start title with [Focus Area] e.g. [Shared Utils & Models], [Appliance Core]
+- Start title with [Focus_Area] from the list below for easy triage (e.g., "[MQTT & Comms] Implement TLS support").
 - Choose correct Focus Area from the dropdown below
 - Fill acceptance criteria — keep it short & testable
 -->
@@ -24,7 +24,7 @@ What needs to be done? Why? Any context or motivation.
 - [ ] Task
 - [ ] Bug
 - [ ] Refactor
-- [ ] Research / Spike
+- [ ] Research
 - [ ] Documentation
 - [ ] Setup / Tooling
 
@@ -44,14 +44,16 @@ What needs to be done? Why? Any context or motivation.
 
 ## Priority
 
-- [ ] Critical (blocks everything)
-- [ ] High (do this burst/week)
+- [ ] Critical
+- [ ] High
 - [ ] Medium
 - [ ] Low
 
 ## Acceptance Criteria
 
-- [ ] Criterion 1 – clear, testable outcome
+List the specific, testable outcomes that mean this issue is done.
+
+- [ ] Criterion 1
 - [ ] Criterion 2
 - [ ] Criterion 3
 
