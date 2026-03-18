@@ -33,9 +33,10 @@ dependencies = [
     # Auth & security
     "passlib[bcrypt]>=1.7.4",
     "python-jose[cryptography]>=3.5.0",
-    "pyjwt>=2.12.1",
+    "pyjwt[crypto]>=2.12.1",
     "qrcode[pil]>=8.2",
     "pyotp>=2.9.0",
+    "zxcvbn>=4.5.0",
 
     # MQTT (async communication with Assistant)
     "asyncio-mqtt>=0.16.2",             # ASYNC MQTT client for communications
