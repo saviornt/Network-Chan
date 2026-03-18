@@ -5,25 +5,26 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  workflow_dispatch:  # Manual trigger from Actions tab
+  workflow_dispatch:
 
 jobs:
   lint-and-typecheck:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-          cache: 'pip'
+          python-version: "3.12"
+          cache: "pip"
 
-      - name: Install shared dependencies
+      - name: Install shared dev deps
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install -e ./shared[dev]
+
+      - name: Create mypy cache
+        run: mkdir -p .mypy_cache
 
       - name: Lint with ruff & black
         run: |
@@ -32,35 +33,34 @@ jobs:
 
       - name: Type check with mypy
         run: |
-          mypy shared/ appliance/ --strict --install-types --non-interactive
+          mypy shared/ appliance/ --strict --cache-dir .mypy_cache
 
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.12']
-        package: ['shared', 'appliance']
+        python-version: ["3.12"]
+        package: ["shared", "appliance"]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          cache: "pip"
 
-      - name: Install dependencies
+      - name: Install deps
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install -e ./${{ matrix.package }}[dev]
 
-      - name: Run pytest
+      - name: Run tests with coverage
         run: |
-          pytest ./${{ matrix.package }} --cov --cov-report=xml
+          pytest ./${{ matrix.package }} --cov=./${{ matrix.package }} --cov-report=term-missing --cov-report=xml
 
-      - name: Upload coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}  # Add secret later if using Codecov
-          fail_ci_if_error: false
+      # Uncomment if/when you add Codecov
+      # - name: Upload coverage
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     file: coverage.xml

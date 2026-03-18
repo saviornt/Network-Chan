@@ -61,6 +61,8 @@ dev = [
     "mypy>=1.13",
     "ruff>=0.7",
     "pre-commit>=4.0",
+    "types-pyyaml",
+    "types-setuptools",
 ]
 
 [build-system]
