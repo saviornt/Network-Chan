@@ -210,6 +210,10 @@ class TabularQCheckpointMetadata(BaseModel):
         default=None,
         description="Rolling average TD error over recent episodes",
     )
+    source: CheckpointSource = Field(
+        ...,
+        description="Where this checkpoint was generated",
+    )
 
 
 class Checkpoint(BaseModel):

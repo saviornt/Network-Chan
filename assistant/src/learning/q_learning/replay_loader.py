@@ -39,7 +39,7 @@ class ReplayLoader:
                         logger.error(
                             "Invalid transition JSON line – skipping",
                             error=str(e),
-                            line=line[:100],
+                            line_preview=line[:100],
                         )
             logger.info(
                 "Loaded transitions from file",
@@ -48,7 +48,9 @@ class ReplayLoader:
             )
         except Exception as e:
             logger.exception(
-                "Failed to load replay file", path=str(filepath), error=str(e)
+                "Failed to load replay file",
+                path=str(filepath),
+                error=str(e),
             )
 
         return transitions
