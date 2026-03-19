@@ -1,0 +1,151 @@
+name: Automated QA Testing
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    issues: write
+
+jobs:
+    lint-and-typecheck:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.12"
+                  cache: "pip"
+
+            - name: Install shared dev deps
+              run: |
+                  python -m pip install --upgrade pip setuptools wheel
+                  pip install -e ./shared[dev]
+
+            - name: Create mypy cache
+              run: mkdir -p .mypy_cache
+
+            - name: Lint with ruff
+              run: |
+                  ruff check shared/ appliance/ assistant/
+
+            - name: Type check with mypy
+              run: |
+                  mypy shared/ appliance/ assistant/ --strict --cache-dir .mypy_cache
+
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: ["3.12"]
+                package: ["shared", "appliance", "assistant"]
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: ${{ matrix.python-version }}
+                  cache: "pip"
+
+            - name: Install deps
+              run: |
+                  python -m pip install --upgrade pip setuptools wheel
+                  pip install -e ./${{ matrix.package }}[dev]
+
+            - name: Run tests with coverage
+              run: |
+                  pytest ./${{ matrix.package }} --cov=./${{ matrix.package }} --cov-report=term-missing --cov-report=xml
+
+            # Uncomment if/when you add Codecov
+            # - name: Upload coverage
+            #   uses: codecov/codecov-action@v5
+            #   with:
+            #     token: ${{ secrets.CODECOV_TOKEN }}
+            #     file: coverage.xml
+
+    create-issue-on-failure:
+        name: Create Issue (only once) if QA fails
+        runs-on: ubuntu-latest
+        needs: [lint-and-typecheck, test]
+        if: ${{ always() && (needs.lint-and-typecheck.result == 'failure' || needs.test.result == 'failure') }}
+        steps:
+            - name: Create / dedupe issue
+              uses: actions/github-script@v7
+              with:
+                  script: |
+                      const owner = context.repo.owner;
+                      const repo = context.repo.repo;
+
+                      // ----- DEDUPE KEY -----
+                      // This makes the issue unique per failing commit (for push) or per PR (for pull_request).
+                      // If you want "only one issue ever per branch until manually closed", change the key.
+                      const eventName = context.eventName;
+                      const isPR = eventName === 'pull_request';
+
+                      const runUrl = `https://github.com/${owner}/${repo}/actions/runs/${context.runId}`;
+
+                      let key;
+                      let refLabel;
+                      if (isPR) {
+                        const prNumber = context.payload.pull_request.number;
+                        key = `qa-failure:pr:${prNumber}`;
+                        refLabel = `PR #${prNumber}`;
+                      } else {
+                        const sha = context.sha;
+                        const refName = context.ref.replace('refs/heads/', '');
+
+                        // If there should be one issue per branch regardless of commit until it's fixed/closed, use:
+                        // key = `qa-failure:push:${refName}`;
+                        key = `qa-failure:push:${refName}:${sha}`;
+                        
+                        refLabel = `${refName}@${sha.substring(0,7)}`;
+                      }
+
+                      const marker = `<!-- ${key} -->`;
+
+                      // ----- CHECK IF ISSUE ALREADY EXISTS -----
+                      // Search open issues for the marker. (You can include closed:true if you want to avoid recreating.)
+                      const searchQuery = `repo:${owner}/${repo} is:issue is:open in:body "${key}"`;
+                      const search = await github.rest.search.issuesAndPullRequests({ q: searchQuery });
+
+                      if (search.data.items.length > 0) {
+                        core.info(`Issue already exists for key "${key}": ${search.data.items[0].html_url}`);
+                        return;
+                      }
+
+                      // ----- BUILD ISSUE CONTENT -----
+                      const needsResults = {
+                        "lint-and-typecheck": "${{ needs.lint-and-typecheck.result }}",
+                        "test": "${{ needs.test.result }}",
+                      };
+
+                      const title = `Automated QA failed (${refLabel})`;
+
+                      const body = [
+                        marker,
+                        `Automated QA testing failed for **${refLabel}**.`,
+                        ``,
+                        `**Workflow run:** ${runUrl}`,
+                        ``,
+                        `**Job results:**`,
+                        `- lint-and-typecheck: \`${needsResults["lint-and-typecheck"]}\``,
+                        `- test: \`${needsResults["test"]}\``,
+                        ``,
+                        `Please open the workflow run and inspect the failing step logs.`,
+                      ].join('\n');
+
+                      // ----- CREATE ISSUE -----
+                      const created = await github.rest.issues.create({
+                        owner,
+                        repo,
+                        title,
+                        body,
+                        labels: ['needs-triage', 'qa'], // optional: keep/remove to match your labeling scheme
+                      });
+
+                      core.info(`Created issue: ${created.data.html_url}`);

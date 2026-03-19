@@ -144,6 +144,7 @@ def mask_sensitive_settings(data: Dict[str, Any]) -> Dict[str, Any]:
     return result
 
 
+# TODO: Remove the following TOTP helper since it is (or should be) fully handled by pyotp in auth_service.py. Kept here for now since some logic is shared between API and service layers, but may be refactored later.
 def check_totp_code(
     secret: str | None,
     provided_code: str,
