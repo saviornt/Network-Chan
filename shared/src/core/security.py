@@ -3,7 +3,6 @@
 This module provides lightweight, reusable helpers for:
 - Data redaction (PII masking in logs/telemetry/embeddings)
 - Basic RBAC/role checks (in-memory; extendable to policy engine)
-- TOTP validation helpers (building on pyotp if installed later)
 - Action permission checks tied to autonomy mode and roles
 
 All functions are pure or take explicit inputs — no global state.

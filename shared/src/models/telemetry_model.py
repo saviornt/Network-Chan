@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -13,7 +13,7 @@ from .base_model import NetworkChanBaseModel
 class TelemetrySample(NetworkChanBaseModel):
     """Single telemetry reading from a network device or interface."""
 
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     device_id: str = Field(min_length=1, description="Unique device identifier")
     interface: str | None = None
     latency_ms: float = Field(ge=0, description="Round-trip latency in ms")
@@ -33,7 +33,7 @@ class TelemetrySample(NetworkChanBaseModel):
 class TelemetryPayload(BaseModel):
     """Validated telemetry packet (used by edge & assistant)."""
 
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     latency_ms: float = Field(ge=0)
     packet_loss: float = Field(ge=0, le=1)
     device_id: str

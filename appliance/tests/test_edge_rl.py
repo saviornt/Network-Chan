@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from appliance.src.ml.qlearn_rl import QLearningAgent, get_q_value
+from appliance.src.learning.qlearn_rl import QLearningAgent, get_q_value
 
 
 @pytest.mark.asyncio
@@ -54,5 +54,7 @@ async def test_update_new_state() -> None:
 async def test_update_negative_reward() -> None:
     agent = QLearningAgent()
     state = np.array([1.0] * agent.state_dim)
-    await agent.update(state, 0, -10.0, np.array([-1.0] * agent.state_dim))  # Negative state for next_q <0
+    await agent.update(
+        state, 0, -10.0, np.array([-1.0] * agent.state_dim)
+    )  # Negative state for next_q <0
     assert agent.q_table[tuple(state)][0] < 0

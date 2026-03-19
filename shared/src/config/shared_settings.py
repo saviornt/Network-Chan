@@ -20,7 +20,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, field_validator, model_validator
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -169,13 +169,37 @@ class SharedSettings(BaseSettings):
     # =========================================================================
     # Validators & Runtime Safety
     # =========================================================================
-    @field_validator("data_dir", "db_path", "faiss_index_path", mode="after")
-    @classmethod
-    def ensure_parent_dirs(cls, v: Path) -> Path:
-        """Create parent directories if they don't exist (safe on Pi)."""
-        if v.is_absolute():
-            v.parent.mkdir(parents=True, exist_ok=True)
-        return v
+    @model_validator(mode="after")
+    def create_parent_directories(self) -> "SharedSettings":
+        """Create parent directories for all configured paths after loading.
+
+        This runs once after all fields are validated/coerced.
+        Safe to call multiple times (exist_ok=True).
+        """
+        paths_to_create = []
+
+        # data_dir (assume it's a Path or None)
+        data_dir = getattr(self, "data_dir", None)
+        if data_dir:
+            paths_to_create.append(data_dir)
+
+        # db_path.parent
+        db_path = getattr(self, "db_path", None)
+        if db_path:
+            paths_to_create.append(db_path.parent)
+
+        # faiss_index_path.parent
+        faiss_index_path = getattr(self, "faiss_index_path", None)
+        if faiss_index_path:
+            paths_to_create.append(faiss_index_path.parent)
+
+        # Add any other Path fields here in the same pattern
+
+        for path in paths_to_create:
+            if path and path.is_absolute():
+                path.parent.mkdir(parents=True, exist_ok=True)  # silent fail-open
+
+        return self
 
     @model_validator(mode="after")
     def validate_autonomy_constraints(self) -> SharedSettings:

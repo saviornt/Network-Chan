@@ -1,6 +1,7 @@
 # Python
 *.pyc
 __pycache__/
+__old__/
 *.pyo
 *.pyd
 .Python
@@ -24,3 +25,4 @@ Thumbs.db
 .markdownlint.yaml
 grok_readme.md
 create_structure.py
+temp_smoke_test.py

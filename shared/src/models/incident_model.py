@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
 from pydantic import Field, model_validator
 
 from .anomaly_model import AnomalyDetectionResult
 from .base_model import NetworkChanBaseModel
-from .rl_model import RLAction
+from .rl_core_models import RLAction
 
 
 class IncidentLogEntry(NetworkChanBaseModel):
@@ -22,7 +22,7 @@ class IncidentLogEntry(NetworkChanBaseModel):
         default_factory=lambda: str(uuid.uuid4()),
         description="Unique UUID for this incident",
     )
-    start_time: datetime = Field(default_factory=datetime.utcnow)
+    start_time: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     end_time: datetime | None = None
     affected_devices: list[str] = Field(
         default_factory=list, description="Device IDs involved"

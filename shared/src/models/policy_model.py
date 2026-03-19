@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
 from pydantic import Field, field_validator, model_validator
 
 from .base_model import NetworkChanBaseModel
-from .rl_model import RLAction, RLState
+from .rl_core_models import RLAction, RLState
 
 
 class PolicyCheckRequest(NetworkChanBaseModel):
@@ -22,7 +22,7 @@ class PolicyCheckRequest(NetworkChanBaseModel):
     requester_id: str | None = Field(
         default=None, description="User or system ID requesting the action"
     )
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     @field_validator("autonomy_mode")
     @classmethod
@@ -48,7 +48,7 @@ class PolicyDecision(NetworkChanBaseModel):
     audit_event_id: str | None = Field(
         default=None, description="Reference to created audit log entry"
     )
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     @model_validator(mode="after")
     def check_consistency(self) -> PolicyDecision:

@@ -3,13 +3,18 @@
 import numpy as np
 import pytest
 
-from appliance.src.ml.reptile_maml import ReptileMetaLearner, compute_gradient_update
+from appliance.src.learning.reptile_maml import (
+    ReptileMetaLearner,
+    compute_gradient_update,
+)
 
 
 @pytest.mark.asyncio
 async def test_adapt_to_tasks() -> None:
     learner = ReptileMetaLearner(param_dim=2, inner_lr=0.1, outer_lr=0.05)
-    mock_tasks = [{"data": np.random.rand(10), "labels": np.random.rand(10)} for _ in range(2)]
+    mock_tasks = [
+        {"data": np.random.rand(10), "labels": np.random.rand(10)} for _ in range(2)
+    ]
     await learner.adapt_to_tasks(mock_tasks)
     assert learner.params.shape == (2,)  # Params updated
     assert not np.allclose(learner.params, np.zeros(2))  # Changed from init
@@ -37,4 +42,6 @@ async def test_adapt_to_tasks_with_error() -> None:
     mock_tasks = [{"data": "invalid"}]  # Triggers raise in _inner_loop
     await learner.adapt_to_tasks(mock_tasks)
     # Since exceptions are skipped, check no update (params unchanged)
-    np.testing.assert_array_equal(learner.params, np.zeros(learner.param_dim))  # No valid params, no change
+    np.testing.assert_array_equal(
+        learner.params, np.zeros(learner.param_dim)
+    )  # No valid params, no change

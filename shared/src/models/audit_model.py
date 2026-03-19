@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 from pydantic import Field
@@ -20,7 +20,7 @@ class AuditEvent(NetworkChanBaseModel):
         default_factory=lambda: str(uuid.uuid4()),
         description="Unique UUID for audit trail",
     )
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     actor: str = Field(
         ..., description="User ID, system component, or 'system' for autonomous"
     )

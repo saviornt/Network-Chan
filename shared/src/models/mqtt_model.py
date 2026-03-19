@@ -7,7 +7,7 @@ All payloads are validated before publish or after receive.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
 
@@ -15,7 +15,7 @@ from pydantic import Field, Json, field_validator, SecretStr
 
 from .base_model import NetworkChanBaseModel
 from .policy_model import PolicyDecision
-from .rl_model import RLAction
+from .rl_core_models import RLAction
 from .telemetry_model import TelemetrySample
 from shared.src.config.mqtt_settings import mqtt_settings
 from shared.src.config.shared_settings import shared_settings
@@ -30,7 +30,7 @@ class MqttMessageMetadata(NetworkChanBaseModel):
     )
     qos: Literal[0, 1, 2] = Field(default=1, description="MQTT QoS level")
     retain: bool = Field(default=False, description="Whether to retain message")
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     message_id: str | None = Field(
         default=None,
         description="Optional unique message UUID (for correlation/tracking)",

@@ -4,7 +4,7 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from appliance.src.ml.tiny_gnn import TinyGNN, gnn_forward
+from appliance.src.learning.tiny_gnn import TinyGNN, gnn_forward
 
 
 @pytest.mark.asyncio

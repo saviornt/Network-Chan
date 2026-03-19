@@ -4,17 +4,19 @@ from typing import Any, NoReturn
 
 import numpy as np  # For states in RL
 
-from src.config.shared_settings import app_settings
+from shared.src.config.shared_settings import app_settings
 
 from .governance.policy_engine import PolicyEngine
-from .ml.qlearn_rl import QLearningAgent
-from .ml.reptile_maml import ReptileMetaLearner
-from .ml.tiny_gnn import TinyGNN
+from .learning.qlearn_rl import QLearningAgent
+from .learning.reptile_maml import ReptileMetaLearner
+from .learning.tiny_gnn import TinyGNN
 from .remediation.remediation_mockup import RemediationDaemon
 from .security.anomaly_detection import AnomalyDetector
 from .security.security_audit import SecurityAudit
 from .telemetry.telemetry_ingest import TelemetryIngestor
-from .utils.logging_setup import logger, prune_logs
+from shared.src.utils.logging_factory import get_logger
+
+logger = get_logger("main")
 
 
 async def run_audit_scheduler(audit: SecurityAudit) -> None:

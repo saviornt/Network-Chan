@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Literal
 
 from pydantic import Field
@@ -14,7 +14,7 @@ class AnomalyDetectionResult(NetworkChanBaseModel):
     """Output from lightweight anomaly detection (TinyML / threshold-based)."""
 
     device_id: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_anomaly: bool
     anomaly_score: float = Field(ge=0, le=1)
     severity: Literal["low", "medium", "high", "critical"] = Field(
