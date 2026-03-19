@@ -20,7 +20,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, SecretStr, field_validator, model_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -55,45 +55,6 @@ class SharedSettings(BaseSettings):
     )
 
     # =========================================================================
-    # Security & Authentication
-    # =========================================================================
-    secret_key: SecretStr = Field(
-        default=SecretStr(
-            os.getenv("SECRET_KEY", "test-secret-key-for-unit-tests-only")
-        ),
-        validation_alias="SECRET_KEY",
-        description="Root secret for JWT, sessions, Fernet crypto, etc.",
-    )
-    jwt_secret: SecretStr = Field(
-        default=SecretStr(
-            os.getenv("JWT_SECRET", "test-jwt-secret-for-unit-tests-only")
-        ),
-        validation_alias="JWT_SECRET",
-        description="Dedicated secret for signing/verifying JWT tokens",
-    )
-    password_salt: SecretStr = Field(
-        default=SecretStr(
-            os.getenv("PASSWORD_SALT", "test-password-salt-for-unit-tests-only")
-        ),
-        validation_alias="PASSWORD_SALT",
-        description="Salt used in password hashing (bcrypt/argon2)",
-    )
-
-    admin_username: str = Field(default="admin", min_length=3)
-    admin_password_hash: str = Field(
-        default=os.getenv(
-            "ADMIN_PASSWORD_HASH", "test-bcrypt-hash-for-unit-tests-only"
-        ),
-        validation_alias="ADMIN_PASSWORD_HASH",
-        description="bcrypt hash of the admin password",
-    )
-    admin_totp_secret: str | None = Field(
-        default=None,
-        validation_alias="ADMIN_TOTP_SECRET",
-        description="Base32-encoded TOTP secret; None = 2FA disabled",
-    )
-
-    # =========================================================================
     # Autonomy & Safety Controls
     # =========================================================================
     autonomous_mode: AutonomyLevel = Field(
@@ -122,13 +83,6 @@ class SharedSettings(BaseSettings):
         default=Path("/var/lib/network-chan"),
         description="Base directory for persistent data (DB, FAISS, MLflow, snapshots)",
     )
-    db_path: Path = Field(default=Path("db.sqlite"), description="Relative to data_dir")
-    faiss_index_path: Path = Field(
-        default=Path("faiss.index"), description="Relative to data_dir"
-    )
-    mlflow_tracking_uri: str = Field(
-        default="sqlite:///mlruns.db", description="Local MLflow backend"
-    )
 
     # =========================================================================
     # RL / ML Shared Defaults (edge-friendly)
@@ -146,15 +100,6 @@ class SharedSettings(BaseSettings):
     # =========================================================================
     # Computed / Helper Properties
     # =========================================================================
-    @property
-    def full_db_path(self) -> Path:
-        """Absolute path to SQLite database (created on first use)."""
-        return (self.data_dir / self.db_path).resolve()
-
-    @property
-    def full_faiss_path(self) -> Path:
-        """Absolute path to FAISS index file."""
-        return (self.data_dir / self.faiss_index_path).resolve()
 
     @cached_property
     def is_edge_device(self) -> bool:
@@ -220,10 +165,6 @@ class SharedSettings(BaseSettings):
     def running_on_pi(self) -> bool:
         """Alias for is_edge_device() — more readable in some contexts."""
         return self.is_edge_device
-
-    def is_2fa_enabled(self) -> bool:
-        """Check if TOTP 2FA is configured for the admin user."""
-        return bool(self.admin_totp_secret)
 
     # =========================================================================
     # Validators & Runtime Safety
