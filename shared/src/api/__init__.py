@@ -16,7 +16,7 @@ Exported routers:
     - (add new routers here as endpoints are created)
 """
 
-from .auth import router as auth_router
+from .auth_api import router as auth_router
 
 # Add future routers here, e.g.:
 # from .telemetry import router as telemetry_router
