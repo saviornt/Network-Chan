@@ -35,7 +35,9 @@ class QLearningSettings(BaseSettings):
     # Learning parameters
     alpha: Probability = Field(
         default=0.1,
-        description="Learning rate — how much new information overrides old",
+        gt=0.0,
+        lt=1.0,
+        description="Learning rate — how much new information overrides old (0 < alpha < 1)",
     )
     gamma: Probability = Field(
         default=0.99,
@@ -100,3 +102,12 @@ class QLearningSettings(BaseSettings):
         self.epsilon_current = max(
             self.epsilon_min, self.epsilon_current * self.epsilon_decay
         )
+
+
+# Singleton instance — import and use directly
+q_learning_settings: QLearningSettings = QLearningSettings()
+
+__all__ = [
+    "QLearningSettings",
+    "q_learning_settings",
+]

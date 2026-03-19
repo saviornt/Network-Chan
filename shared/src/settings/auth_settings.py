@@ -135,3 +135,8 @@ class AuthSettings(BaseSettings):
 
 # Singleton instance — import and use directly
 auth_settings: AuthSettings = AuthSettings()
+
+__all__ = [
+    "AuthSettings",
+    "auth_settings",
+]

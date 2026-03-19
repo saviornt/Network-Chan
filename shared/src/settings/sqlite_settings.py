@@ -67,3 +67,8 @@ class SQLiteSettings(BaseSettings):
 
 # Singleton instance (preferred way to access settings)
 sqlite_settings = SQLiteSettings()
+
+__all__ = [
+    "SQLiteSettings",
+    "sqlite_settings",
+]

@@ -16,7 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from shared.src.settings.auth_settings import auth_settings
 from shared.src.models.auth_model import TokenResponse
 from shared.src.models.user_model import UserInDB
-from shared.src.utils.auth import (
+from shared.src.authentication.auth import (
     generate_totp_secret,
     verify_totp,
     create_access_token,

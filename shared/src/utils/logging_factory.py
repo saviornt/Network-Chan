@@ -22,28 +22,10 @@ from pathlib import Path
 
 import structlog
 from logging.handlers import TimedRotatingFileHandler
-from pydantic import BaseModel, ConfigDict, field_validator
 
 from shared.src.settings.logging_settings import logging_settings
+from shared.src.models.logging_model import LogContext
 from shared.src.settings.shared_settings import shared_settings
-
-
-class LogContext(BaseModel):
-    """Pydantic-validated context for structured log entries."""
-
-    model_config = ConfigDict(extra="allow", frozen=False)
-
-    component: str | None = None
-    autonomy_mode: str | None = None
-    device_id: str | None = None
-    incident_id: str | None = None
-    edge: bool = False
-    request_id: str | None = None
-
-    @field_validator("autonomy_mode", mode="before")
-    @classmethod
-    def normalize_autonomy(cls, v: Any) -> str | None:
-        return str(v).upper() if v is not None else None
 
 
 class StructuredLogging:
@@ -181,3 +163,5 @@ class StructuredLogging:
 
 # Public API
 get_logger = StructuredLogging.get_logger
+
+__all__ = ["get_logger", "StructuredLogging"]

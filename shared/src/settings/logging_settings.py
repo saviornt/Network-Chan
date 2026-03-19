@@ -78,3 +78,8 @@ class LoggingSettings(BaseSettings):
 
 # Singleton instance — import and use directly
 logging_settings: LoggingSettings = LoggingSettings()
+
+__all__ = [
+    "LoggingSettings",
+    "logging_settings",
+]

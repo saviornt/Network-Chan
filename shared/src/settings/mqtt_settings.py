@@ -89,3 +89,8 @@ class MqttSettings(BaseSettings):
 
 # Singleton instance — import and use directly
 mqtt_settings: MqttSettings = MqttSettings()
+
+__all__ = [
+    "MqttSettings",
+    "mqtt_settings",
+]

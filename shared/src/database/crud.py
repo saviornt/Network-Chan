@@ -358,14 +358,16 @@ async def get_vector_metadata_by_faiss_id(
 # ──────────────────────────────────────────────
 
 __all__ = [
+    # Commands
     "create_user",
     "get_user_by_username",
     "get_user_by_id",
     "update_user",
     "delete_user",
     "create_incident",
-    "EntityNotFoundError",
-    "EntityAlreadyExistsError",
     "create_vector_metadata",
     "get_vector_metadata_by_faiss_id",
+    # Exceptions
+    "EntityNotFoundError",
+    "EntityAlreadyExistsError",
 ]
