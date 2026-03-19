@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from shared.src.config.q_learning_settings import QLearningSettings
+from shared.src.settings.q_learning_settings import QLearningSettings
 from shared.src.models.q_learning_models import (
     Transition,  # noqa: F401   # TODO: This will be used with the full implementation of the train_on_dump() method.
 )
@@ -118,7 +118,7 @@ class AssistantTrainer:
 
 
 if __name__ == "__main__":
-    from shared.src.config.q_learning_settings import QLearningSettings
+    from shared.src.settings.q_learning_settings import QLearningSettings
 
     trainer = AssistantTrainer(QLearningSettings())
     stats = trainer.train_on_dump()

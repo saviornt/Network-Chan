@@ -17,7 +17,7 @@ from pathlib import Path
 import datetime
 
 
-from shared.src.config.q_learning_settings import QLearningSettings
+from shared.src.settings.q_learning_settings import QLearningSettings
 from shared.src.models.q_learning_models import Transition
 from shared.src.models.rl_core_models import TabularQCheckpointMetadata
 from shared.src.learning.q_learning.helper_functions import (

@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 
 import numpy as np
 
-from shared.src.config.q_learning_settings import QLearningSettings
+from shared.src.settings.q_learning_settings import QLearningSettings
 from shared.src.models.rl_core_models import (
     TabularQCheckpointMetadata,
     CheckpointSource,
@@ -148,7 +148,7 @@ class PolicyDistiller:
 
 
 if __name__ == "__main__":
-    from shared.src.config.q_learning_settings import QLearningSettings
+    from shared.src.settings.q_learning_settings import QLearningSettings
 
     distiller = PolicyDistiller(QLearningSettings())
     success = distiller.distill()

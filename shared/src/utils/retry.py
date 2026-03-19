@@ -27,7 +27,7 @@ from typing import Awaitable, Callable, ParamSpec, TypeVar
 import tenacity
 from tenacity import RetryCallState, retry_if_exception_type, stop_after_attempt
 
-from shared.src.config.retry_settings import retry_settings
+from shared.src.settings.retry_settings import retry_settings
 from shared.src.utils.logging_factory import get_logger
 
 logger = get_logger(__name__)

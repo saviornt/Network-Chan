@@ -24,8 +24,8 @@ import structlog
 from logging.handlers import TimedRotatingFileHandler
 from pydantic import BaseModel, ConfigDict, field_validator
 
-from shared.src.config.logging_settings import logging_settings
-from shared.src.config.shared_settings import shared_settings
+from shared.src.settings.logging_settings import logging_settings
+from shared.src.settings.shared_settings import shared_settings
 
 
 class LogContext(BaseModel):

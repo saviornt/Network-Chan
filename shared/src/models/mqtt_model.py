@@ -17,8 +17,8 @@ from .base_model import NetworkChanBaseModel
 from .policy_model import PolicyDecision
 from .rl_core_models import RLAction
 from .telemetry_model import TelemetrySample
-from shared.src.config.mqtt_settings import mqtt_settings
-from shared.src.config.shared_settings import shared_settings
+from shared.src.settings.mqtt_settings import mqtt_settings
+from shared.src.settings.shared_settings import shared_settings
 
 
 class MqttMessageMetadata(NetworkChanBaseModel):

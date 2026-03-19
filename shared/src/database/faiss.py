@@ -10,7 +10,7 @@ from typing import List, Optional, Tuple, cast
 import faiss
 import numpy as np
 
-from shared.src.config.faiss_settings import faiss_settings
+from shared.src.settings.faiss_settings import faiss_settings
 from shared.src.utils.logging_factory import get_logger
 
 logger = get_logger(

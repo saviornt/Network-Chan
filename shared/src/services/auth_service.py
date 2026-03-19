@@ -13,7 +13,7 @@ from typing import List, Optional, Tuple
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shared.src.config.auth_settings import auth_settings
+from shared.src.settings.auth_settings import auth_settings
 from shared.src.models.auth_model import TokenResponse
 from shared.src.models.user_model import UserInDB
 from shared.src.utils.auth import (

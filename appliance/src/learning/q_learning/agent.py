@@ -19,7 +19,7 @@ from typing import Deque, Optional, Literal
 import numpy as np
 from prometheus_client import Gauge
 
-from shared.src.config.q_learning_settings import QLearningSettings
+from shared.src.settings.q_learning_settings import QLearningSettings
 from shared.src.models.q_learning_models import Transition
 from shared.src.models.rl_core_models import (
     TabularQCheckpointMetadata,

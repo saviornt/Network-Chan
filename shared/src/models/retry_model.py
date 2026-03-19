@@ -18,7 +18,7 @@ import asyncio
 from typing import Any, Tuple, Type
 
 from pydantic import BaseModel, Field
-from shared.src.config.retry_settings import retry_settings
+from shared.src.settings.retry_settings import retry_settings
 
 
 class RetryConfig(BaseModel):

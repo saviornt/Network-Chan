@@ -4,7 +4,7 @@ from typing import Any, NoReturn
 
 import numpy as np  # For states in RL
 
-from shared.src.config.shared_settings import app_settings
+from shared.src.settings.shared_settings import app_settings
 
 from .governance.policy_engine import PolicyEngine
 from .learning.qlearn_rl import QLearningAgent

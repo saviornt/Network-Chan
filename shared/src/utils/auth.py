@@ -23,7 +23,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from shared.src.config.auth_settings import auth_settings
+from shared.src.settings.auth_settings import auth_settings
 from shared.src.models.auth_model import TokenResponse, CurrentUser
 from shared.src.utils.logging_factory import get_logger
 

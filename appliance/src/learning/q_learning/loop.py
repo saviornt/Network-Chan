@@ -17,7 +17,7 @@ import signal
 import sys
 from typing import Optional
 
-from shared.src.config.q_learning_settings import QLearningSettings
+from shared.src.settings.q_learning_settings import QLearningSettings
 from shared.src.utils.logging_factory import get_logger
 from appliance.src.learning.q_learning.agent import ApplianceQLAgent
 from appliance.src.learning.q_learning.dummy_env import DummyNetworkEnv
