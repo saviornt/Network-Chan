@@ -1,3 +1,4 @@
+# shared/src/settings/__init__.py
 """Settings package for Network-Chan — central hub for all configuration/settings modules.
 
 This package provides modular, Pydantic-v2 validated settings classes that are loaded

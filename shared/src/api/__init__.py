@@ -1,3 +1,4 @@
+# shared/src/api/__init__.py
 """API routers package for Network-Chan.
 
 This package collects all FastAPI APIRouters defined in submodules.

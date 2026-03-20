@@ -1,3 +1,4 @@
+# shared/src/authentication/__init__.py
 """Authentication domain package for Network-Chan.
 
 Contains reusable, non-HTTP authentication logic:

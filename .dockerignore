@@ -1,0 +1,95 @@
+# Based on .gitignore + Docker-specific exclusions
+
+# Python / build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Testing / coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.pytest_cache/
+tox/
+.nox/
+
+# IDE / editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS / temp files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# Dependency management lockfiles (optional: include if you want reproducible builds)
+# poetry.lock     # ← usually INCLUDE this for reproducibility
+# requirements.txt
+
+# Local environment / secrets (NEVER include in image)
+.env
+.env.*
+*.local
+*.secrets
+secrets/
+
+# Logs / runtime data
+logs/
+*.log
+
+# Large binaries / media (if any)
+*.bin
+*.exe
+*.dll
+*.zip
+*.tar.gz
+
+# Git / version control
+.git
+.gitattributes
+.gitignore
+.github/
+
+# Documentation (unless you serve them from the container)
+docs/
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Tests (usually not needed in production image)
+tests/
+test/
+
+# Docker-specific extras
+Dockerfile*
+docker-compose*
+*.dockerignore
+
+# If you have heavy dev tools or node_modules (unlikely here)
+node_modules/

@@ -1,3 +1,4 @@
+# shared/src/utils/__init__.py
 """Shared utilities submodule.
 
 Contains logging, MQTT helpers, Pydantic models, etc. that are used
