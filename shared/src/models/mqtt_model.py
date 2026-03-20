@@ -9,63 +9,60 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Literal, Optional
 
-from pydantic import Field, Json, field_validator, SecretStr
+from pydantic import BaseModel, ConfigDict, Field, Json, SecretStr, field_validator
 
-from .base_model import NetworkChanBaseModel
-from .policy_model import PolicyDecision
-from .rl_core_models import RLAction
-from .telemetry_model import TelemetrySample
+from shared.src.models.policy_model import PolicyDecisionModel
+from shared.src.models.rl_core_models import RLAction
+from shared.src.models.telemetry_models import TelemetrySampleModel
 from shared.src.settings.mqtt_settings import mqtt_settings
-from shared.src.settings.shared_settings import shared_settings
 
 
-class MqttMessageMetadata(NetworkChanBaseModel):
-    """Common metadata wrapper for every MQTT message (used in both pub/sub)."""
+class MqttMessageMetadata(BaseModel):
+    """Common metadata wrapper for every MQTT message (pub/sub)."""
 
-    topic: str = Field(
-        min_length=1,
-        description="Full MQTT topic (e.g. 'network-chan/telemetry/ap-01')",
+    model_config = ConfigDict(
+        extra="forbid",  # reject unknown fields
+        str_strip_whitespace=True,
+        validate_default=True,
+        validate_assignment=True,
+        frozen=True,  # immutable metadata
     )
+
+    topic: str = Field(min_length=1, description="Full MQTT topic")
     qos: Literal[0, 1, 2] = Field(default=1, description="MQTT QoS level")
-    retain: bool = Field(default=False, description="Whether to retain message")
+    retain: bool = Field(default=False, description="Retain flag")
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    message_id: str | None = Field(
-        default=None,
-        description="Optional unique message UUID (for correlation/tracking)",
-    )
-    sender: str = Field(
-        ..., description="Sender identifier (e.g. 'appliance-pi-01', 'assistant')"
-    )
+    message_id: Optional[str] = Field(default=None, description="Correlation ID")
+    sender: str = Field(..., description="Sender identifier (e.g. 'appliance-pi-01')")
 
 
-class MqttTelemetryPublish(NetworkChanBaseModel):
-    """Payload shape for publishing telemetry samples from edge to broker."""
+class MqttTelemetryPublish(BaseModel):
+    """Payload for publishing telemetry from edge to broker."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
     metadata: MqttMessageMetadata
-    payload: TelemetrySample | list[TelemetrySample] = Field(
-        description="Single sample or batch of recent samples"
-    )
+    payload: TelemetrySampleModel | list[TelemetrySampleModel] = Field(...)
 
     @field_validator("payload", mode="before")
     @classmethod
-    def normalize_payload(
-        cls,
-        v: Dict[str, Any] | List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
-        """Normalize payload to always be a list of dicts."""
+    def normalize_payload(cls, v: Any) -> list[dict]:
+        """Normalize to list of dicts for consistency."""
         if isinstance(v, dict):
             return [v]
         if isinstance(v, list):
             if not all(isinstance(item, dict) for item in v):
                 raise ValueError("All items in payload list must be dicts")
             return v
-        raise ValueError("payload must be a dict or list of dicts")
+        raise ValueError("payload must be dict or list of dicts")
 
 
-class MqttControlCommand(NetworkChanBaseModel):
-    """Standardized shape for control/policy messages sent to the edge appliance."""
+class MqttControlCommand(BaseModel):
+    """Control/policy command sent to the edge appliance."""
+
+    model_config = ConfigDict(extra="forbid")
 
     metadata: MqttMessageMetadata
     command_type: Literal[
@@ -77,67 +74,66 @@ class MqttControlCommand(NetworkChanBaseModel):
         "shutdown",
     ]
     parameters: dict[str, Any] = Field(default_factory=dict)
-    requested_by: str | None = None
-    correlation_id: str | None = Field(
-        default=None, description="For request-response pairing"
-    )
+    requested_by: Optional[str] = None
+    correlation_id: Optional[str] = Field(default=None)
 
 
-class MqttActionExecution(NetworkChanBaseModel):
-    """Payload published after an action is executed (success/failure)."""
+class MqttActionExecution(BaseModel):
+    """Published after executing an action (success/failure)."""
+
+    model_config = ConfigDict(extra="forbid")
 
     metadata: MqttMessageMetadata
     action: RLAction
     success: bool
     result_message: str = Field(default="")
-    exit_code: int | None = None
-    duration_seconds: float | None = Field(default=None, ge=0)
-    error_details: str | None = None
+    exit_code: Optional[int] = None
+    duration_seconds: Optional[float] = Field(default=None, ge=0)
+    error_details: Optional[str] = None
 
 
-class MqttPolicyDecisionPublish(NetworkChanBaseModel):
-    """When the central assistant publishes a policy decision back to edge."""
+class MqttPolicyDecisionPublish(BaseModel):
+    """Policy decision published from assistant to edge."""
 
-    metadata: MqttMessageMetadata
-    decision: PolicyDecision
-    original_request_id: str | None = Field(
-        default=None, description="Links back to the original PolicyCheckRequest"
-    )
-
-
-class MqttRawPayload(NetworkChanBaseModel):
-    """Fallback / generic wrapper for unknown or future message types."""
+    model_config = ConfigDict(extra="forbid")
 
     metadata: MqttMessageMetadata
-    raw_payload: Json[Any] = Field(
-        ..., description="Arbitrary JSON-serializable content"
+    decision: PolicyDecisionModel
+    original_request_id: Optional[str] = Field(default=None)
+
+
+class MqttRawPayload(BaseModel):
+    """Generic fallback for unknown/future message types."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    metadata: MqttMessageMetadata
+    raw_payload: Json[Any] = Field(...)
+
+
+class MqttClientOptions(BaseModel):
+    """Validated runtime options for creating an MQTT client."""
+
+    model_config = ConfigDict(
+        extra="forbid",
+        str_strip_whitespace=True,
     )
 
-
-class MqttClientOptions(NetworkChanBaseModel):
-    """
-    Validated runtime options for creating an MQTT client.
-
-    Aggregates settings from mqtt_settings + optional overrides.
-    Used as input to create_secure_mqtt_client().
-    """
-
-    hostname: str = Field(..., description="MQTT broker hostname or IP")
-    port: int = Field(..., ge=1, le=65535, description="Broker port")
-    client_id: str = Field(..., min_length=1, description="Unique client identifier")
-    username: Optional[str] = Field(default=None)
-    password: Optional[str] = Field(default=None)  # Plain str (SecretStr unwrapped)
+    hostname: str = Field(...)
+    port: int = Field(..., ge=1, le=65535)
+    client_id: str = Field(min_length=1)
+    username: Optional[str] = None
+    password: Optional[str] = None
     tls_enabled: bool = Field(default=True)
-    ca_cert_path: Optional[Path] = Field(default=None)
-    client_cert_path: Optional[Path] = Field(default=None)
-    client_key_path: Optional[Path] = Field(default=None)
+    ca_cert_path: Optional[Path] = None
+    client_cert_path: Optional[Path] = None
+    client_key_path: Optional[Path] = None
     keepalive: int = Field(default=60, ge=1)
     connect_timeout: float = Field(default=10.0, ge=1.0)
 
     @field_validator("password", mode="before")
     @classmethod
     def unwrap_password(cls, v: Any) -> Optional[str]:
-        """Convert SecretStr to plain string if present."""
         if isinstance(v, SecretStr):
             return v.get_secret_value()
         return v
@@ -146,23 +142,22 @@ class MqttClientOptions(NetworkChanBaseModel):
     def from_settings(
         cls, overrides: dict[str, Any] | None = None
     ) -> "MqttClientOptions":
-        """
-        Build options from mqtt_settings + optional runtime overrides.
-
-        Automatically formats client_id with app_env if template present.
-        """
         data = mqtt_settings.model_dump(exclude_none=True)
         if overrides:
             data.update(overrides)
 
-        # Unwrap password if SecretStr
         if mqtt_settings.password:
             data["password"] = mqtt_settings.password.get_secret_value()
 
-        # Format client_id if it contains {app_env}
-        if "{app_env}" in data.get("client_id", ""):
-            data["client_id"] = data["client_id"].format(
-                app_env=shared_settings.app_env
-            )
-
         return cls.model_validate(data)
+
+
+__all__ = [
+    "MqttMessageMetadata",
+    "MqttTelemetryPublish",
+    "MqttControlCommand",
+    "MqttActionExecution",
+    "MqttPolicyDecisionPublish",
+    "MqttRawPayload",
+    "MqttClientOptions",
+]

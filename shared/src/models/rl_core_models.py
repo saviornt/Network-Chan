@@ -1,231 +1,185 @@
-"""Core models for the reinforcement learning domain in Network-Chan.
+"""Core Pydantic schemas and SQLAlchemy ORM records for the reinforcement learning domain.
 
-This module defines the canonical data structures for RL observations,
-states, actions, and rewards. These models are used across the entire
-project (Appliance edge inference, Assistant central training, simulation,
-multi-agent coordination, etc.) to ensure consistency and type safety.
+This module defines the general-purpose RL building blocks (observations, states, actions, rewards)
+and model registry for versioning/tracking trained models/checkpoints.
 
-All models inherit from RLBaseModel with strict validation rules.
+Q-Learning-specific structures (e.g. tabular Q-tables, epsilon tracking) are in q_learning_models.py.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple, Union
+from uuid import UUID, uuid4
 from datetime import datetime
-from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Literal
 
 import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from sqlalchemy import DateTime, String, JSON, Index, Text
+from sqlalchemy.orm import Mapped, mapped_column
 
-class CheckpointSource(str, Enum):
-    EDGE = "edge"
-    CENTRAL = "central"
-    SIMULATION = "simulation"
+from shared.src.models.sqlite_models import Base
 
 
-class RLBaseModel(BaseModel):
-    """Base Pydantic model for all reinforcement learning domain objects.
+class RLObservation(BaseModel):
+    """A single observation / feature vector from the network environment.
 
-    Enforces strict validation, forbids extra fields, and supports safe
-    coercion where explicitly allowed. Designed for use in both low-latency
-    edge (Raspberry Pi Appliance) and compute-heavy central (Assistant) contexts.
+    Raw input to RL agents (Q-Learning, REPTILE, GNNs, etc.).
     """
 
     model_config = ConfigDict(
-        strict=True,  # No unexpected type coercion
-        extra="forbid",  # Reject unknown fields
-        frozen=False,  # Allow mutation when needed (e.g. updating stats)
-        validate_assignment=True,  # Re-validate when attributes are set
-        populate_by_name=True,  # Allow population by field name or alias
-        arbitrary_types_allowed=True,  # Support NumPy arrays, torch tensors, etc.
-        json_encoders={np.ndarray: lambda v: v.tolist()},  # Safe NumPy serialization
+        extra="forbid",
+        arbitrary_types_allowed=True,
+        json_encoders={np.ndarray: lambda v: v.tolist()},
     )
-
-
-class RLObservation(RLBaseModel):
-    """A single observation / feature vector from the network environment.
-
-    This is the raw input fed to RL agents (Q-Learning, REPTILE, GNNs, etc.).
-    Contains the flattened feature vector plus metadata for traceability and
-    reconstruction (e.g. for GNN topology-aware processing).
-    """
 
     features: List[float] = Field(
         ...,
-        description="Flattened feature vector (e.g. latency, packet loss, client count, noise floor, ...)",
         min_length=1,
+        description="Flattened feature vector (latency, packet loss, client count, etc.)",
     )
     original_shape: Tuple[int, ...] = Field(
         default=(0,),
-        description="Original shape before flattening (for later reshaping in GNN/CNN agents)",
+        description="Original shape before flattening (for GNN/CNN agents)",
     )
     device_id: str = Field(
-        ...,
-        min_length=1,
-        description="Identifier of the originating device (e.g. AP name, switch IP, MAC)",
+        ..., min_length=1, description="Originating device identifier"
     )
-    timestamp: float = Field(
-        ...,
-        gt=0,
-        description="Unix timestamp (seconds) when observation was collected",
-    )
+    timestamp: float = Field(..., gt=0, description="Unix timestamp (seconds)")
 
     @field_validator("features")
     @classmethod
     def validate_features(cls, v: List[float]) -> List[float]:
-        """Ensure features are valid (non-empty, finite values)."""
         if not v:
-            raise ValueError("Observation features cannot be empty")
+            raise ValueError("Features cannot be empty")
         if any(np.isnan(x) or np.isinf(x) for x in v):
-            raise ValueError("Features contain NaN or Inf values")
+            raise ValueError("Features contain NaN or Inf")
         return v
 
     def to_numpy(self) -> np.ndarray:
-        """Convert features to a NumPy array (edge-friendly, float32)."""
         arr = np.array(self.features, dtype=np.float32)
         if self.original_shape != (0,):
             arr = arr.reshape(self.original_shape)
         return arr
 
 
-class RLState(RLBaseModel):
-    """The full state of an RL agent at a given timestep.
+class RLState(BaseModel):
+    """Full agent state at a timestep (observation + optional internal state)."""
 
-    Combines the current observation with optional internal agent state
-    (e.g. previous action, eligibility traces, LSTM hidden state, etc.).
-    Used by agents that maintain memory or recurrent context.
-    """
+    model_config = ConfigDict(extra="forbid", arbitrary_types_allowed=True)
 
-    observation: RLObservation = Field(
-        ...,
-        description="Current environment observation",
-    )
+    observation: RLObservation = Field(...)
     internal_state: Optional[Any] = Field(
         default=None,
-        description=(
-            "Agent-specific internal state (e.g. LSTM hidden, eligibility traces, "
-            "previous action). Type depends on agent architecture."
-        ),
+        description="Agent-specific internal state (LSTM hidden, traces, etc.)",
     )
-    episode_step: int = Field(
-        default=0,
-        ge=0,
-        description="Step count within the current episode",
-    )
-    episode_id: Optional[str] = Field(
-        default=None,
-        description="Unique identifier of the current episode",
-    )
+    episode_step: int = Field(default=0, ge=0, description="Step in current episode")
+    episode_id: Optional[str] = Field(default=None, description="Episode identifier")
 
 
-class RLAction(RLBaseModel):
-    """Action proposed or taken by an RL agent.
+class RLAction(BaseModel):
+    """Action proposed or taken by an RL agent."""
 
-    Structured representation of discrete or continuous actions with
-    metadata for auditing, safety gating, and rollback.
-    """
+    model_config = ConfigDict(extra="forbid")
 
     action_type: str = Field(
-        ...,
-        min_length=1,
-        description="Semantic type (e.g. 'change_channel', 'throttle_client', 'rebalance_load')",
+        ..., min_length=1, description="Semantic type (e.g. 'change_channel')"
     )
-    target: Optional[str] = Field(
-        default=None,
-        description="Target identifier (AP name, client MAC, port ID, etc.)",
-    )
-    value: Any = Field(
-        ...,
-        description="Action parameter (int for discrete, float for continuous, dict for complex)",
-    )
+    target: Optional[str] = Field(default=None, description="Target identifier")
+    value: Any = Field(..., description="Action parameter (int, float, dict, etc.)")
     confidence: float = Field(
-        default=0.0,
-        ge=0.0,
-        le=1.0,
-        description="Agent confidence score (used for safety gating)",
+        default=0.0, ge=0.0, le=1.0, description="Agent confidence"
     )
-    proposed_at: float = Field(
-        ...,
-        gt=0,
-        description="Unix timestamp when action was proposed",
-    )
+    proposed_at: float = Field(..., gt=0, description="Unix timestamp when proposed")
 
 
-class RewardSignal(RLBaseModel):
-    """Reward signal received after executing an action.
+class RewardSignal(BaseModel):
+    """Reward signal received after executing an action."""
 
-    Scalar value plus optional component breakdown for explainability,
-    debugging, and reward shaping analysis.
-    """
+    model_config = ConfigDict(extra="forbid")
 
-    value: float = Field(
-        ...,
-        description="Scalar reward (higher is better)",
-    )
+    value: float = Field(..., description="Scalar reward (higher is better)")
     components: Dict[str, float] = Field(
         default_factory=dict,
-        description=(
-            "Breakdown of reward sources (e.g. {'latency_improvement': 0.3, "
-            "'loss_reduction': 0.15, 'energy_savings': -0.05})"
+        description="Breakdown of reward sources (e.g. latency improvement, energy cost)",
+    )
+    timestamp: float = Field(..., gt=0, description="Unix timestamp when computed")
+
+
+class ModelRegistryRecord(Base):
+    """Persistent SQLite table tracking versions of trained ML/RL models."""
+
+    __tablename__ = "model_registry"
+
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4, index=True)
+    model_name: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
+    version: Mapped[str] = mapped_column(String(50), nullable=False)
+    model_type: Mapped[str] = mapped_column(String(50), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    trained_on: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+    model_hash: Mapped[str] = mapped_column(
+        String(64), nullable=False, unique=True, index=True
+    )
+    file_path: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
+    performance_metrics: Mapped[dict] = mapped_column(
+        JSON, nullable=False, default=dict
+    )
+
+    __table_args__ = (
+        Index(
+            "ix_model_registry_model_name_version", "model_name", "version", unique=True
         ),
     )
-    timestamp: float = Field(
-        ...,
-        gt=0,
-        description="Unix timestamp when reward was computed",
+
+    def __repr__(self) -> str:
+        return f"<ModelRegistryRecord {self.model_name} v{self.version}>"
+
+
+class ModelRegistryModel(BaseModel):
+    """Base fields shared across ModelRegistry Pydantic schemas."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    model_name: str = Field(..., description="Name/identifier of the model")
+    version: str = Field(..., description="Semantic version or commit hash")
+    model_type: Literal["tinyml", "q_learning", "gnn", "rl_maml", "other"]
+    description: Optional[str] = None
+    trained_on: Optional[datetime] = None
+    performance_metrics: Dict[str, float] = Field(default_factory=dict)
+
+
+class ModelRegistryCreateModel(ModelRegistryModel):
+    """Fields required when registering a new model version."""
+
+    model_hash: str = Field(
+        ..., description="Content hash (sha256) of serialized model"
+    )
+    file_path: Optional[str] = Field(
+        None, description="Path to model file if stored locally"
     )
 
 
-class TabularQCheckpointMetadata(BaseModel):
-    """Metadata stored alongside a saved tabular Q-table checkpoint."""
+class ModelRegistryReadModel(ModelRegistryModel):
+    """Read representation of a model registry entry."""
 
-    created_at: datetime = Field(..., description="When this checkpoint was saved")
-    episode_count: int = Field(
-        ..., ge=0, description="Total episodes experienced so far"
-    )
-    total_steps: int = Field(..., ge=0, description="Cumulative training steps")
-    avg_reward_last_100: Optional[float] = Field(
-        None, description="Rolling average reward over last 100 episodes"
-    )
-    epsilon: float = Field(
-        ..., ge=0.0, le=1.0, description="Exploration rate at save time"
-    )
-    source: CheckpointSource = Field(
-        ..., description="Where this checkpoint was generated"
-    )
-    version: str = Field(
-        default="1.0",
-        description="Checkpoint format version (for future migrations)",
-    )
-    extra_tags: Dict[str, str] = Field(
-        default_factory=dict,
-        description="Arbitrary key-value tags (e.g. {'network_id': 'home-lab-1'})",
-    )
-    fallback_reason: Optional[str] = Field(
-        default=None,
-        description="Reason this is a fallback checkpoint (e.g. 'file_missing', 'corrupt_metadata')",
-    )
-    rolling_avg_td_error: Optional[float] = Field(
-        default=None,
-        description="Rolling average TD error over recent episodes",
-    )
-    source: CheckpointSource = Field(
-        ...,
-        description="Where this checkpoint was generated",
-    )
+    id: UUID
+    model_hash: str
+    file_path: Optional[str]
+    created_at: datetime
+    updated_at: datetime
 
 
-class Checkpoint(BaseModel):
-    """Full checkpoint structure (metadata + serialized Q data).
-
-    Used for save/load round-trips between edge and central.
-    """
-
-    metadata: TabularQCheckpointMetadata
-    q_table: Union[List[List[float]], Dict[str, Any]] = (
-        Field(  # numpy serialized as list-of-lists or dict
-            ...,
-            description="Serialized Q-table (tabular: 2D list; future: other formats)",
-        )
-    )
+__all__ = [
+    # Core RL
+    "RLObservation",
+    "RLState",
+    "RLAction",
+    "RewardSignal",
+    # Model registry
+    "ModelRegistryModel",
+    "ModelRegistryCreateModel",
+    "ModelRegistryReadModel",
+    "ModelRegistryRecord",
+]
