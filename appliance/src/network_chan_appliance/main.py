@@ -5,7 +5,8 @@ import sys
 import asyncio
 from datetime import datetime, timezone
 
-from shared.utils.logging_factory import get_logger
+from network_chan_shared.utils.logging_factory import get_logger
+
 
 logger = get_logger(__name__)
 

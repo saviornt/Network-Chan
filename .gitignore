@@ -26,3 +26,4 @@ Thumbs.db
 grok_readme.md
 create_structure.py
 temp_smoke_test.py
+.vscode/
