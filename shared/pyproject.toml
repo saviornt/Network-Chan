@@ -74,15 +74,15 @@ db_migration = [
 requires = ["setuptools>=75", "wheel"]
 build-backend = "setuptools.build_meta"
 
-# [tool.setuptools]
-# packages = ["network_chan_shared"]
+[tool.setuptools]
+packages = ["network_chan_shared"]
 
 # [tool.setuptools.package-dir]
 # "network_chan_shared" = "src"
 
-[tool.setuptools.packages.find]
-where = ["src"]
-namespaces = false
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# namespaces = false
 
-[tool.setuptools.package-data]
-"*" = ["*.pyi", "*.typed"]  # Include type stubs if you add them later
+# [tool.setuptools.package-data]
+# "*" = ["*.pyi", "*.typed"]  # Include type stubs if you add them later

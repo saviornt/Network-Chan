@@ -38,15 +38,15 @@ dependencies = [
 requires = ["setuptools>=75", "wheel"]
 build-backend = "setuptools.build_meta"
 
-# [tool.setuptools]
-# packages = ["network_chan_appliance"]
+[tool.setuptools]
+packages = ["network_chan_appliance"]
 #
 # [tool.setuptools.package-dir]
 # "network_chan_appliance" = "src"
 
-[tool.setuptools.packages.find]
-where = ["src"]
-namespaces = false
+# [tool.setuptools.packages.find]
+# where = ["src"]
+# namespaces = false
 
-[tool.setuptools.package-data]
-"*" = ["*.pyi", "*.typed"]
+# [tool.setuptools.package-data]
+# "*" = ["*.pyi", "*.typed"]
