@@ -9,13 +9,13 @@ from typing import List
 import numpy as np
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shared.database.crud import (
+from .crud import (
     create_vector_metadata,
     get_vector_metadata_by_faiss_id,
 )
-from shared.database.faiss import FaissIndex
-from shared.models.faiss_models import VectorMetadataCreate, VectorSearchResult
-from shared.utils.logging_factory import get_logger
+from .faiss import FaissIndex
+from ..models.faiss_models import VectorMetadataCreate, VectorSearchResult
+from ..utils.logging_factory import get_logger
 
 logger = get_logger(component="database.faiss_integration")
 

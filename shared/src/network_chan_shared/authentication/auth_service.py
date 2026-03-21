@@ -13,17 +13,17 @@ from typing import List, Optional, Tuple
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shared.settings.auth_settings import auth_settings
-from shared.models.auth_model import TokenResponse
-from shared.models.user_model import UserInDB
-from shared.authentication.auth import (
+from ..settings.auth_settings import auth_settings
+from ..models.auth_model import TokenResponse
+from ..models.user_model import UserInDB
+from ..authentication.auth import (
     generate_totp_secret,
     verify_totp,
     create_access_token,
     hash_password,
     verify_password,
 )
-from shared.utils.logging_factory import get_logger
+from ..utils.logging_factory import get_logger
 
 logger = get_logger(__name__)
 

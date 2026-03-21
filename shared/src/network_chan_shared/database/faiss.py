@@ -10,8 +10,8 @@ from typing import List, Optional, Tuple, cast
 import faiss
 import numpy as np
 
-from shared.settings.faiss_settings import faiss_settings
-from shared.utils.logging_factory import get_logger
+from ..settings.faiss_settings import faiss_settings
+from ..utils.logging_factory import get_logger
 
 logger = get_logger(
     component="database.faiss", index_path=str(faiss_settings.full_index_path)

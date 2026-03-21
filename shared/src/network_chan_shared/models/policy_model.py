@@ -16,9 +16,9 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from sqlalchemy import Boolean, DateTime, ForeignKey, String, Text, Index, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from shared.models.sqlite_models import Base
-from shared.models.rl_core_models import RLAction, RLState
-from shared.models.incident_model import IncidentRecord
+from ..models.sqlite_models import Base
+from ..models.rl_core_models import RLAction, RLState
+from ..models.incident_model import IncidentRecord
 
 
 class PolicyCheckRequestModel(BaseModel):

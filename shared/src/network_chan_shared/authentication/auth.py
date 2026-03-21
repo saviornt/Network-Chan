@@ -30,10 +30,10 @@ from passlib.context import CryptContext
 from fastapi import HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database.crud import get_user_by_username
-from settings import auth_settings
-from models.auth_model import TokenResponse, CurrentUser
-from shared.utils.logging_factory import get_logger
+from ..database.crud import get_user_by_username
+from ..settings import auth_settings
+from ..models.auth_model import TokenResponse, CurrentUser
+from ..utils.logging_factory import get_logger
 
 
 logger = get_logger(__name__, category="auth")

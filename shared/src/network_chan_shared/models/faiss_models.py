@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
-from shared.models.sqlite_models import Base
+from ..models.sqlite_models import Base
 
 
 class VectorMetadataBase(BaseModel):

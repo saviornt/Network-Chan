@@ -20,8 +20,8 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.exc import SQLAlchemyError
 
-from shared.settings.sqlite_settings import sqlite_settings
-from shared.models.sqlite_models import Base  # Import all models
+from ..settings.sqlite_settings import sqlite_settings
+from ..models.sqlite_models import Base  # Import all models
 
 logger = logging.getLogger(__name__)
 

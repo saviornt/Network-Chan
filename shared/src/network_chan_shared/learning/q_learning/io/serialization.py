@@ -28,8 +28,8 @@ from typing import Any, Dict, Tuple, Union
 
 import numpy as np
 
-from shared.models.rl_core_models import TabularQCheckpointMetadata
-from shared.utils.logging_factory import get_logger
+from ....models.rl_core_models import TabularQCheckpointMetadata
+from ....utils.logging_factory import get_logger
 
 logger = get_logger("q_learning.io.serialization")
 

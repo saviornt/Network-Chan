@@ -13,7 +13,7 @@ import platform
 from functools import cache
 from typing import Final
 
-from shared.utils.logging_factory import get_logger
+from ..utils.logging_factory import get_logger
 
 logger = get_logger("device_detection")
 

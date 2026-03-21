@@ -10,7 +10,7 @@ from sqlalchemy import select, update, delete
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shared.utils.logging_factory import get_logger
+from ..utils.logging_factory import get_logger
 
 TModel = TypeVar("TModel")
 TCreate = TypeVar("TCreate")

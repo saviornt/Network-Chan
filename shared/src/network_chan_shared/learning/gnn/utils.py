@@ -12,7 +12,7 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, List, Tuple
 
-from src.settings.shared_settings import settings
+from ...utils import check_device
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 # Conditional imports for PyTorch Geometric (central Assistant only)
 # ──────────────────────────────────────────────────────────────────────────────
 
-if not settings.is_edge_device:
+if not check_device.is_edge_device:
     try:
         import torch
         from torch_geometric.data import Batch, Data
@@ -58,7 +58,7 @@ def normalize_node_features(
     Returns:
         Normalized data object (same type as input)
     """
-    if settings.is_edge_device or torch is None or Data is None:
+    if check_device.is_edge_device or torch is None or Data is None:
         logger.debug("Normalization skipped on edge / missing torch")
         return data
 
@@ -85,7 +85,7 @@ def standardize_edge_attributes(
 
     Similar to node feature normalization but for edge_attr.
     """
-    if settings.is_edge_device or torch is None or Data is None:
+    if check_device.is_edge_device or torch is None or Data is None:
         return data
 
     if (
@@ -110,7 +110,7 @@ def batch_graphs(graphs: List[Any]) -> Any:
 
     Safe on edge: returns input list unchanged if torch_geometric unavailable.
     """
-    if settings.is_edge_device or Batch is None:
+    if check_device.is_edge_device or Batch is None:
         logger.debug("Batching skipped on edge / missing torch_geometric")
         return graphs
 
@@ -129,7 +129,7 @@ def add_self_loops(data: Any) -> Any:
 
     Safe on edge: returns input unchanged.
     """
-    if settings.is_edge_device or torch is None or Data is None:
+    if check_device.is_edge_device or torch is None or Data is None:
         return data
 
     if not isinstance(data, Data) or data.edge_index is None or data.num_nodes == 0:
@@ -160,7 +160,7 @@ def ensure_consistent_feature_dim(
     if not data_list:
         return [], 0
 
-    if settings.is_edge_device or torch is None:
+    if check_device.is_edge_device or torch is None:
         return data_list, len(data_list[0].get("x", [[]])[0]) if data_list[0].get(
             "x"
         ) else 0

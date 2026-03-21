@@ -19,8 +19,8 @@ from typing import Any, Dict, List, Tuple
 
 import networkx as nx
 
-from src.settings.shared_settings import settings
-from shared.models.rl_core_models import RLObservation
+from ...utils import check_device
+from ...models.rl_core_models import RLObservation
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # Conditional imports for PyTorch Geometric (central Assistant only)
 # ──────────────────────────────────────────────────────────────────────────────
 
-if not settings.is_edge_device:
+if not check_device.is_edge_device:
     try:
         import torch
         from torch_geometric.data import Data
@@ -191,7 +191,7 @@ class TopologyGraphBuilder:
         Returns:
             torch_geometric.data.Data object (or raises if called on edge)
         """
-        if settings.is_edge_device:
+        if check_device.is_edge_device:
             raise RuntimeError(
                 "to_pyg_data() is not supported on edge Appliance (requires PyTorch)"
             )

@@ -23,9 +23,12 @@ from pathlib import Path
 import structlog
 from logging.handlers import TimedRotatingFileHandler
 
-from shared.settings.logging_settings import logging_settings
-from shared.models.logging_model import LogContext
-from shared.settings.shared_settings import shared_settings
+import check_device
+from ..settings.logging_settings import logging_settings
+from ..models.logging_model import LogContext
+
+
+# from ..settings.shared_settings import shared_settings
 
 
 class StructuredLogging:
@@ -151,7 +154,7 @@ class StructuredLogging:
         bound_fields = ctx.model_dump(exclude_none=True)
 
         # Auto-enrich with edge detection
-        if shared_settings.is_edge_device:
+        if check_device.is_edge_device:
             bound_fields.setdefault("edge", True)
 
         logger: structlog.stdlib.BoundLogger = structlog.get_logger()

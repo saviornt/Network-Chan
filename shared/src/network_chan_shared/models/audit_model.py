@@ -16,7 +16,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import Boolean, DateTime, String, JSON, Index
 from sqlalchemy.orm import Mapped, mapped_column
 
-from shared.models.sqlite_models import Base
+from ..models.sqlite_models import Base
 
 
 class AuditEventModel(BaseModel):

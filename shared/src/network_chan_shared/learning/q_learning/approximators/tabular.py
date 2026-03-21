@@ -17,20 +17,20 @@ from pathlib import Path
 import datetime
 
 
-from shared.settings.q_learning_settings import QLearningSettings
-from shared.models.q_learning_models import Transition
-from shared.models.rl_core_models import TabularQCheckpointMetadata
-from shared.learning.q_learning.helper_functions import (
+from ....settings.q_learning_settings import QLearningSettings
+from ....models.q_learning_models import Transition
+from ....models.rl_core_models import TabularQCheckpointMetadata
+from ....learning.q_learning.helper_functions import (
     compute_td_target,
     compute_td_error,
     update_q_table_value,
 )
-from shared.learning.q_learning.replay.uniform import UniformReplay
-from shared.learning.q_learning.io.serialization import (
+from ....learning.q_learning.replay.uniform import UniformReplay
+from ....learning.q_learning.io.serialization import (
     save_tabular_checkpoint,
     load_tabular_checkpoint,
 )
-from shared.utils.logging_factory import get_logger
+from ....utils.logging_factory import get_logger
 
 logger = get_logger("q_learning.approximators.tabular")
 

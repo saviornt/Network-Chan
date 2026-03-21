@@ -17,7 +17,7 @@ from typing import List, Tuple, Dict, Any
 import numpy as np
 from numpy.typing import NDArray
 
-from shared.models.q_learning_models import Transition
+from ....models.q_learning_models import Transition
 
 
 class UniformReplay:

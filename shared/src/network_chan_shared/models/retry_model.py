@@ -20,7 +20,8 @@ from typing import Any, Tuple, Type
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from shared.settings.retry_settings import retry_settings
+# TODO: Check this against utils/retry.py
+from ..settings.retry_settings import retry_settings
 from tenacity import (
     wait_random_exponential,
     wait_random,

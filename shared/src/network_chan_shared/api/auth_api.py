@@ -17,25 +17,25 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from shared.models.auth_model import (
+from ..models import (
     LoginRequest,
     TokenResponse,
     TotpSetupResponse,
     CurrentUser,
 )
-from shared.authentication.auth_service import (
+from ..authentication import (
     login_user,
     change_password,
     get_user_by_username,
 )
-from shared.authentication.auth import (
+from ..authentication.auth import (
     get_totp_provisioning_uri,
     password_validator,
     get_current_user,
     generate_totp_secret,
 )
-from shared.database.sqlite import get_db
-from shared.utils.logging_factory import get_logger
+from ..database.sqlite import get_db
+from ..utils.logging_factory import get_logger
 
 
 logger = get_logger("auth", category="api")

@@ -14,10 +14,9 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, List, Literal
 
-import pyotp
 from pydantic import BaseModel, Field
 
-from src.settings.shared_settings import AutonomyLevel, shared_settings
+from ..settings.governance_settings import autonomous_mode, AutonomyLevel
 
 
 class UserContext(BaseModel):
@@ -75,7 +74,7 @@ def redact_pii(value: Any, deep: bool = True) -> Any:
 def is_action_allowed(
     action_name: str,
     user: UserContext,
-    current_autonomy: AutonomyLevel = shared_settings.autonomous_mode,
+    current_autonomy: AutonomyLevel = autonomous_mode,
 ) -> bool:
     """Check if a given action is permitted under current autonomy mode and user roles.
 
@@ -141,31 +140,3 @@ def mask_sensitive_settings(data: Dict[str, Any]) -> Dict[str, Any]:
             result[key] = "[REDACTED]"
 
     return result
-
-
-# TODO: Remove the following TOTP helper since it is (or should be) fully handled by pyotp in auth_service.py. Kept here for now since some logic is shared between API and service layers, but may be refactored later.
-def check_totp_code(
-    secret: str | None,
-    provided_code: str,
-    *,
-    window: int = 1,
-) -> bool:
-    """Validate a TOTP code against the stored secret using pyotp (or stub fallback).
-
-    Args:
-        secret: Base32-encoded TOTP secret from settings (None = 2FA disabled).
-        provided_code: 6-digit code submitted by user.
-        window: Allow codes from ±window time steps (default 1 = ±30 seconds).
-
-    Returns:
-        True if the code is valid, False otherwise.
-    """
-    if not secret:
-        # No secret configured → 2FA is disabled → always pass
-        return True
-
-    if not provided_code or not provided_code.isdigit() or len(provided_code) != 6:
-        return False
-
-    totp = pyotp.TOTP(secret)
-    return totp.verify(provided_code, valid_window=window)

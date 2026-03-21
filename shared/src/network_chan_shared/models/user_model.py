@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from sqlalchemy import Boolean, DateTime, Index, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from sqlite_models import Base  # After modular refactor; currently from sqlite_models
+from .sqlite_models import Base  # After modular refactor; currently from sqlite_models
 
 
 # ────────────────────────────────────────────────

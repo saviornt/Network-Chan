@@ -18,9 +18,9 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy import Boolean, DateTime, Index, String, Text, JSON
 from sqlalchemy.orm import Mapped, mapped_column
 
-from shared.models.sqlite_models import Base
-from shared.models.anomaly_model import AnomalyDetectionResultModel
-from shared.models.rl_core_models import RLAction
+from ..models.sqlite_models import Base
+from ..models.anomaly_model import AnomalyDetectionResultModel
+from ..models.rl_core_models import RLAction
 
 
 class IncidentBaseModel(BaseModel):

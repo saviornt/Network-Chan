@@ -17,7 +17,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import Boolean, DateTime, Float, Index, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from shared.models.sqlite_models import (
+from ..models.sqlite_models import (
     Base,
 )  # Provides auto created_at / updated_at
 

@@ -12,10 +12,10 @@ from __future__ import annotations
 from asyncio_mqtt import Client as AsyncMQTTClient
 from typing import Optional
 
-from shared.models.mqtt_model import MqttClientOptions
-from shared.utils.retry import aretry_network
-from shared.utils.logging_factory import get_logger
-from shared.utils.tls_utils import create_mqtt_tls_context
+from ..models.mqtt_model import MqttClientOptions
+from ..utils.retry import aretry_network
+from ..utils.logging_factory import get_logger
+from ..utils.tls_utils import create_mqtt_tls_context
 
 logger = get_logger(__name__)
 

@@ -14,7 +14,7 @@ from pathlib import Path
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from shared.utils.logging_factory import get_logger
+from ..utils.logging_factory import get_logger
 
 
 logger = get_logger("faiss_settings", category="settings")

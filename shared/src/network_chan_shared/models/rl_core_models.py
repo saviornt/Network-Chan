@@ -18,7 +18,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy import DateTime, String, JSON, Index, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
-from shared.models.sqlite_models import Base
+from ..models.sqlite_models import Base
 
 
 class RLObservation(BaseModel):

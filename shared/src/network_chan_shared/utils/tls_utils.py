@@ -11,7 +11,7 @@ import ssl
 from pathlib import Path
 from typing import Optional
 
-from shared.settings.mqtt_settings import mqtt_settings
+from ..settings.mqtt_settings import mqtt_settings
 
 
 def create_mqtt_tls_context() -> Optional[ssl.SSLContext]:

@@ -18,7 +18,7 @@ from typing import Self
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from shared.utils.logging_factory import get_logger
+from ..utils.logging_factory import get_logger
 
 logger = get_logger("governance_settings", category="settings")
 
@@ -106,10 +106,11 @@ class GovernanceSettings(BaseSettings):
 
 # Singleton instance — import and use directly
 governance_settings: GovernanceSettings = GovernanceSettings()
-
+autonomous_mode: AutonomyLevel = GovernanceSettings().autonomous_mode
 
 __all__ = [
     "GovernanceSettings",
     "governance_settings",
     "AutonomyLevel",
+    "autonomous_mode",
 ]
