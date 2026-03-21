@@ -36,7 +36,7 @@ dependencies = [
 
     # Reporting / exports
     "reportlab >= 4.2",                 # PDF reports
-    "pandas >= 2.2",                    # Analytics / dataframes
+    "pandas >= 3.0.1",                    # Analytics / dataframes
 
     # Extra resilience & utils
     "tenacity >= 9.0",                  # Already in shared, explicit ok
@@ -46,11 +46,15 @@ dependencies = [
 requires = ["setuptools >= 75", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["network_chan_assistant"]
+# [tool.setuptools]
+# packages = ["network_chan_assistant"]
 
-[tool.setuptools.package-dir]
-"network_chan_assistant" = "src"
+# [tool.setuptools.package-dir]
+# "network_chan_assistant" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
 
 [tool.setuptools.package-data]
 "*" = ["*.pyi", "*.typed"]
