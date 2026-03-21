@@ -7,17 +7,17 @@ from pathlib import Path
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from shared.src.settings.q_learning_settings import QLearningSettings
-from shared.src.models.q_learning_models import (
+from shared.settings.q_learning_settings import QLearningSettings
+from shared.models.q_learning_models import (
     Transition,  # noqa: F401   # TODO: This will be used with the full implementation of the train_on_dump() method.
 )
-from shared.src.models.rl_core_models import (
+from shared.models.rl_core_models import (
     TabularQCheckpointMetadata,
     CheckpointSource,
 )
-from shared.src.utils.logging_factory import get_logger
-from shared.src.learning.q_learning.approximators.tabular import TabularQ
-from shared.src.learning.q_learning.io.serialization import save_tabular_checkpoint
+from shared.utils.logging_factory import get_logger
+from shared.learning.q_learning.approximators.tabular import TabularQ
+from shared.learning.q_learning.io.serialization import save_tabular_checkpoint
 from assistant.src.learning.q_learning.replay_loader import ReplayLoader
 
 logger = get_logger("q_learning.trainer.assistant")
@@ -118,7 +118,7 @@ class AssistantTrainer:
 
 
 if __name__ == "__main__":
-    from shared.src.settings.q_learning_settings import QLearningSettings
+    from shared.settings.q_learning_settings import QLearningSettings
 
     trainer = AssistantTrainer(QLearningSettings())
     stats = trainer.train_on_dump()

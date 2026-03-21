@@ -54,7 +54,7 @@ The assessment is based on the current main branch state (March 2026), project-w
 
 - **Validator inconsistencies** in some settings modules: references to fields like `db_path`, `faiss_index_path` that may not exist or are mistyped → fix or remove
 - **Incomplete docstrings**: A few modules miss full `Args`/`Returns`/`Raises` sections (e.g. some utils)
-- **Packaging / import readiness**: After `setup.py` or `pyproject.toml`, imports should use `from shared.src...` – test this in CI
+- **Packaging / import readiness**: After `setup.py` or `pyproject.toml`, imports should use `from shared...` – test this in CI
 - **Test coverage**: Assume >80% target not yet fully verified across shared – add pytest suite if missing
 
 → **Verdict**: Shared layer is robust, observable, and maintainable. With the minor fixes above, it is **production-viable** today.

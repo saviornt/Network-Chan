@@ -5,8 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List
 
-from shared.src.models.q_learning_models import Transition
-from shared.src.utils.logging_factory import get_logger
+from shared.models.q_learning_models import Transition
+from shared.utils.logging_factory import get_logger
 
 logger = get_logger("q_learning.trainer.replay_loader")
 

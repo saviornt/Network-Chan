@@ -20,13 +20,13 @@ from datetime import datetime, timezone
 
 import numpy as np
 
-from shared.src.settings.q_learning_settings import QLearningSettings
-from shared.src.models.rl_core_models import (
+from shared.settings.q_learning_settings import QLearningSettings
+from shared.models.rl_core_models import (
     TabularQCheckpointMetadata,
     CheckpointSource,
 )
-from shared.src.utils.logging_factory import get_logger
-from shared.src.learning.q_learning.io.serialization import (
+from shared.utils.logging_factory import get_logger
+from shared.learning.q_learning.io.serialization import (
     save_tabular_checkpoint,
     load_tabular_checkpoint,
 )
@@ -148,7 +148,7 @@ class PolicyDistiller:
 
 
 if __name__ == "__main__":
-    from shared.src.settings.q_learning_settings import QLearningSettings
+    from shared.settings.q_learning_settings import QLearningSettings
 
     distiller = PolicyDistiller(QLearningSettings())
     success = distiller.distill()
