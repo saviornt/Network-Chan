@@ -76,9 +76,20 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]          # scan current dir (flat layout)
-include = ["*"]        # include everything (adjust if you want to exclude tests/)
+include = [
+    "*",
+    "api",
+    "authentication",
+    "database",
+    "governance",
+    "learning",
+    "models",
+    "mqtt",
+    "services",
+    "settings",
+    "utils"
+]
 exclude = ["tests*", "tests*.*", "*.tests*"]  # exclude test dirs
-namespaces = false     # explicit opt-out of legacy behavior (optional but safe)
 
 # [tool.setuptools.package-data]
 # "*" = ["*.pyi", "*.typed"]  # Include type stubs if you add them later
