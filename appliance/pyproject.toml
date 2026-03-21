@@ -44,13 +44,6 @@ packages = ["network_chan_appliance"]
 # [tool.setuptools.package-dir]
 # "network_chan_appliance" = "src"
 
-[tool.setuptools.packages.find]
-exclude = [
-    "tests*",
-    "test*",
-    "*.tests",
-    "*.test",
-]
 namespaces = false
 
 # [tool.setuptools.package-data]

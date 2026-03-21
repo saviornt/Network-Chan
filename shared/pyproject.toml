@@ -80,13 +80,6 @@ packages = ["network_chan_shared"]
 # [tool.setuptools.package-dir]
 # "network_chan_shared" = "src"
 
-[tool.setuptools.packages.find]
-exclude = [
-    "tests*",
-    "test*",
-    "*.tests",
-    "*.test",
-]
 namespaces = false
 
 # [tool.setuptools.package-data]
