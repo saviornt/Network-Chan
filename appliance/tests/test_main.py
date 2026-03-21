@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, Mock, patch
 import numpy as np
 import pytest
 
-from appliance.src.main import run_loop  # Import function
+from appliance.src.network_chan_appliance.main import run_loop  # Import function
 
 
 class StopLoop(Exception):
@@ -35,7 +35,9 @@ async def test_run_loop_integration(monkeypatch: pytest.MonkeyPatch) -> None:
     mock_detect.check_anomalies.return_value = (True, "Alert")
 
     mock_gnn = AsyncMock()
-    mock_gnn.embed_graph.return_value = np.random.rand(10).reshape(2, 5)  # Mock embedding
+    mock_gnn.embed_graph.return_value = np.random.rand(10).reshape(
+        2, 5
+    )  # Mock embedding
 
     mock_agent = AsyncMock()
     mock_agent.select_action.return_value = 1
@@ -59,11 +61,24 @@ async def test_run_loop_integration(monkeypatch: pytest.MonkeyPatch) -> None:
         with patch("appliance.src.main.TelemetryIngestor", return_value=mock_ingest):
             with patch("appliance.src.main.AnomalyDetector", return_value=mock_detect):
                 with patch("appliance.src.main.TinyGNN", return_value=mock_gnn):
-                    with patch("appliance.src.main.QLearningAgent", return_value=mock_agent):
-                        with patch("appliance.src.main.ReptileMetaLearner", return_value=mock_learner):
-                            with patch("appliance.src.main.PolicyEngine", return_value=mock_engine):
-                                with patch("appliance.src.main.RemediationDaemon", return_value=mock_daemon):
-                                    with patch("asyncio.create_task", return_value=None):  # Mock audit_task
+                    with patch(
+                        "appliance.src.main.QLearningAgent", return_value=mock_agent
+                    ):
+                        with patch(
+                            "appliance.src.main.ReptileMetaLearner",
+                            return_value=mock_learner,
+                        ):
+                            with patch(
+                                "appliance.src.main.PolicyEngine",
+                                return_value=mock_engine,
+                            ):
+                                with patch(
+                                    "appliance.src.main.RemediationDaemon",
+                                    return_value=mock_daemon,
+                                ):
+                                    with patch(
+                                        "asyncio.create_task", return_value=None
+                                    ):  # Mock audit_task
                                         with patch("asyncio.sleep", mock_sleep):
                                             with pytest.raises(StopLoop):
                                                 await run_loop()
