@@ -41,8 +41,11 @@ network-chan-appliance = "main:main"
 requires = ["setuptools>=75.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-namespaces = true
+[tool.setuptools.packages.find]
+where = ["."]          # scan current dir (flat layout)
+include = ["*"]        # include everything (adjust if you want to exclude tests/)
+exclude = ["tests*", "tests*.*", "*.tests*"]  # exclude test dirs
+namespaces = false     # explicit opt-out of legacy behavior (optional but safe)
 
 # [tool.setuptools.package-data]
 # "*" = ["*.pyi", "*.typed"]
