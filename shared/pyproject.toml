@@ -78,16 +78,16 @@ build-backend = "setuptools.build_meta"
 where = ["."]          # scan current dir (flat layout)
 include = [
     "*",
-    "api",
-    "authentication",
-    "database",
-    "governance",
-    "learning",
-    "models",
-    "mqtt",
-    "services",
-    "settings",
-    "utils"
+    "api.*",
+    "authentication.*",
+    "database.*",
+    "governance.*",
+    "learning.*",
+    "models.*",
+    "mqtt.*",
+    "services.*",
+    "settings.*",
+    "utils.*"
 ]
 exclude = ["tests*", "tests*.*", "*.tests*"]  # exclude test dirs
 

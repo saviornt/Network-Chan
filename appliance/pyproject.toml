@@ -43,7 +43,18 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]          # scan current dir (flat layout)
-include = ["*", "governance.*", "integrations.*", "learning.*", "models.*", "remediation.*", "security.*", "settings.*", "telemetry.*", "utils.*"]
+include = [
+    "*",
+    "governance.*",
+    "integrations.*",
+    "learning.*",
+    "models.*",
+    "remediation.*",
+    "security.*",
+    "settings.*",
+    "telemetry.*",
+    "utils.*"
+]
 exclude = ["tests*", "tests*.*", "*.tests*"]  # exclude test dirs
 
 # [tool.setuptools.package-data]
