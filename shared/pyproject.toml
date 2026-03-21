@@ -71,25 +71,14 @@ db_migration = [
 ]
 
 [build-system]
-requires = ["setuptools>=75", "wheel"]
+requires = ["setuptools>=75.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["."]          # scan current dir (flat layout)
-include = [
-    "*",
-    "api.*",
-    "authentication.*",
-    "database.*",
-    "governance.*",
-    "learning.*",
-    "models.*",
-    "mqtt.*",
-    "services.*",
-    "settings.*",
-    "utils.*"
-]
-exclude = ["tests*", "tests*.*", "*.tests*"]  # exclude test dirs
+where = ["src"]
+include = ["network_chan_shared*"]
+exclude = ["*.tests*", "tests*"]
+namespaces = false
 
-# [tool.setuptools.package-data]
-# "*" = ["*.pyi", "*.typed"]  # Include type stubs if you add them later
+[tool.setuptools.package-data]
+"network_chan_shared" = ["*.pyi", "*.typed", "*.json", "*.yaml"]
