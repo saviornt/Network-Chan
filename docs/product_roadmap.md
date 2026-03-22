@@ -1,93 +1,197 @@
 # Network-Chan Product Roadmap
 
-**Prepared for:** Home lab / research deployment  
 **Project name:** Network-Chan  
-**Date:** 2026-03-14  
-**Version:** 1.0  
+**Date:** 2026-03-21  
+**Version:** 1.1
 
 ## Executive Summary
 
-This Product Roadmap outlines the high-level timeline for Network-Chan's features, releases, and market milestones, linking them to strategic goals like building a safe autonomous SDN control plane, enabling multi-agent RL, and providing usable AIOps admin tools. It serves as a guide for investors, stakeholders, and the development team, emphasizing iterative Agile delivery.
+This is the **complete micro-view product roadmap** for Network-Chan — a detailed, sequential breakdown of every major step from current state (shared components mostly ready) through to full MVP (Appliance + Application integrated on real hardware) and beyond.  
 
-The roadmap is divided into phases tied to quarterly releases, with flexibility for feedback-driven adjustments. Strategic goals are mapped to steps: e.g., perception/telemetry in early phases supports MTTD/MTTR KPIs, while governance/safety ensures low false positives. Market milestones focus on beta testing, crowdfunding, and commercialization to capitalize on the AIOps market's 20%+ CAGR.
+It is built for solo development:
 
-Expected outcomes: MVP in Q2 2026, full 1.0 in Q4 2026, with 500–1,000 units sold in Year 1 via freemium model (free Appliance core, premium Assistant features).
+- 1-week sprints (1–2 day tasks)
+- GitHub Issues → auto-cards in "Network-Chan Project Development" board
+- Testing flow: Manual QA (on real Pi 5 / emulator) → Automated QA (pytest/MyPy in GitHub Actions)
+- Definition of Done: Works as intended + no errors + manual verification + (where applicable) CI pass
+- MVP = Both layers working together locally on your hardware (telemetry up, models down, centralized config/logs, TOTP 2FA)
 
-## Strategic Goals and Link to Development Steps
+The roadmap follows the 9 phases defined in the agile plan and expands each into specific, actionable tasks with deliverables, success criteria, and dependencies.
 
-Network-Chan's roadmap is anchored in three core goals, with practical steps ensuring alignment:
+## Full Micro-View Roadmap (Phase-by-Phase)
 
-1. **Build Safe Autonomous SDN Control Plane** (Goal: MTTD/MTTR <60s, false positives <3%)  
-   - Steps: Phase 1 focus on edge perception/learning; Phase 2 governance; Phase 3 validation.  
-   - Link: Early monitoring (Q2) → RL automation (Q3) → multi-agent scaling (Q4).
+### Phase 1: Shared Components Stability (March 24 – April 6, 2026 | 2 weeks)
 
-2. **Enable Multi-Agent RL Across Devices** (Goal: High-precision remediation in lab VLANs)  
-   - Steps: Phase 2 edge RL prototype; Phase 4 full GNN/RL-MAML training.  
-   - Link: Mininet sims (Q2) → PettingZoo agents (Q3) → staging VLAN rollout (Q4).
+**Goal**: Make shared layer rock-solid before any layer-specific work.
 
-3. **Provide Usable AIOps Console** (Goal: LLM accuracy >90%, intuitive UX)  
-   - Steps: Phase 3 memory/LLM; Phase 2 dashboard.  
-   - Link: FAISS RAG (Q3) → Vue chat/UI (Q3) → VAD/personality polish (Q4).
+**Week 1 (Mar 24–30)**
 
-## High-Level Timeline
+- Review/debug/refactor shared/src (logging_factory.py, shared_settings.py, Pydantic models, asyncio-mqtt helpers, UTC datetime pattern, Numba njit usage)
+- Add missing `__init__.py` exports and fix any validator inconsistencies
+- Enable basic GitHub Actions CI (Ruff lint + MyPy strict)
+- Update all Google-style docstrings and type hints
+- Test package installation in Docker Pi 5 emulator
 
-The timeline assumes a part-time team (1–2 developers), starting March 2026. Phases overlap slightly for parallel work. Total to 1.0: 6–9 months.
+**Week 2 (Mar 31 – Apr 6)**
 
-| Quarter | Phase / Focus | Key Features & Activities | Releases & Milestones | Risks / Dependencies |
-|---------|---------------|---------------------------|-----------------------|----------------------|
-| Q1 2026 (Mar–May) | Phase 0–1: Foundations + Perception | Hardware setup, Prometheus + Grafana install, SNMP/psutil telemetry, graph builder (NetworkX), SQLite + FAISS prototype, basic exporters. | Internal Alpha 0.1: Running Pi with metrics dashboard. | Low risk; dep: Pi 5 + ER707 hardware. |
-| Q2 2026 (Jun–Aug) | Phase 2: Edge RL & TinyML | TinyML anomaly detector (TFLite/ONNX), Q-Learning agent prototype, REPTILE meta-loop, snapshots/rollback (Netmiko), Mosquitto MQTT with TLS. | MVP Release 0.2: Standalone Appliance with monitoring/learning/automation. Beta testing starts (5–10 users). | Medium risk (RL convergence); dep: Mininet sims. |
-| Q3 2026 (Sep–Nov) | Phase 3: Memory, FAISS & LLM Assistant | Incident ingestion → FAISS + SQLite, basic chat UI with RAG/LLM (Ollama), VAD scoring + personality templates, Vue dashboard foundation. | Release 0.3: Assistant integration, full dashboard, voice prototype. Kickstarter campaign launch. | Medium risk (LLM accuracy); dep: FAISS retrieval tuning. |
-| Q4 2026 (Dec–Feb 2027) | Phase 4: Multi-Agent RL + GNNs | PettingZoo env + Mininet integration, GNN-based agents (PyG), RL-MAML training (Ray RLlib), staging VLAN validation. | Release 1.0: Full system with multi-agent RL, governance engine. Market launch (Etsy, Pi stores). | High risk (policy safety); dep: Lab VLAN setup. |
-| Q1 2027+ (Ongoing) | Phase 5: Hardening & Polish | Security audit, CI/CD, TTS/STT (if desired), user docs, MLflow model registry, Optuna HPO. | Release 1.1+: Premium features (custom personalities, enterprise integrations). Scale to MSPs. | Low risk; dep: Beta feedback. |
+- Add structured logging factory usage everywhere in shared
+- Create comprehensive test suite for shared utilities (pytest)
+- Manual QA: Run full package install + basic import tests on real Pi 5
+- Success criteria: Shared package installs cleanly, all tests pass, no deprecation warnings
 
-## Features & Releases Roadmap
+**Deliverables**: Production-ready shared package (pip-installable), CI enabled, docs updated  
+**Dependencies**: None (current focus)
 
-Releases are tied to Agile sprints (2-week cycles), with MVPs every quarter. Features prioritized by value (e.g., core monitoring first).
+### Phase 2: Telemetry Ingestion & Appliance Basics (April 7 – April 27, 2026 | 3 weeks)
 
-### Release 0.1 – Alpha (Q1 2026 End)
+**Goal**: Get real data flowing from Omada hardware.
 
-- Features: Telemetry ingestion, basic Prometheus/Grafana dashboards, SQLite logging.
-- Strategic Link: Builds perception brain for MTTD goals.
-- Market Milestone: Internal demo; share architecture docs on GitHub.
+**Week 1**
 
-### Release 0.2 – MVP (Q2 2026 End)
+- Implement async telemetry ingestion (Omada API + SNMP v3 + psutil) using asyncio-mqtt
+- Store raw incidents, telemetry and time-series metrics in Appliance local SQLite + FAISS
+- Publish Prometheus-compatible time-series metrics
 
-- Features: Edge TinyML anomaly detection, Q-Learning + REPTILE hybrid for predictions, automation engine, security auditing scheduler, MQTT pub/sub.
-- Strategic Link: Enables safe remediation and multi-agent prototypes.
-- Market Milestone: Beta program launch (r/homelab recruitment); Appliance kit prototype ready for testing.
+**Week 2**
 
-### Release 0.3 – Beta (Q3 2026 End)
+- Add TinyML basic inference stub (TinyGNN + Q-Learning + REPTILE) on incoming telemetry
+- Create local FastAPI + Jinja2 config/settings/log viewer (port 8001)
+- Implement forced TOTP 2FA setup on first Appliance login
 
-- Features: FAISS RAG for LLM, VAD emotional UX, Vue dashboard with charts/topology, analytics tools, TOTP 2FA, voice interface.
-- Strategic Link: Provides grounded LLM advice and usable console.
-- Market Milestone: Kickstarter campaign; free Appliance downloads + premium Assistant beta.
+**Week 3**
 
-### Release 1.0 – GA (Q4 2026 End)
+- Manual QA on real ER707-M2/OC220 hardware
+- Add checkpointing and basic rollback safety
+- Success criteria: Live metrics visible in local UI, no crashes, data published to MQTT
 
-- Features: Full GNN + RL-MAML training, multi-agent PettingZoo env, policy engine with autonomy modes, Mininet sims, MLflow registry.
-- Strategic Link: Achieves high-precision multi-agent RL and <3% false positives.
-- Market Milestone: Official launch (Etsy/Pi stores); freemium pricing ($0 Appliance core, $5/month Assistant premium); Phoenix tech meetup demo.
+**Deliverables**: Working Appliance telemetry loop + local UI  
+**Dependencies**: Phase 1 complete
 
-### Post-1.0 Roadmap (2027+)
+### Phase 3: Appliance Core & Standalone Test (April 28 – May 18, 2026 | 3 weeks)
 
-- **Q1 2027**: Enterprise extensions (multi-site federation, custom agents).  
-- **Q2 2027**: Mobile app proxy via HA.  
-- **Ongoing**: Community contributions (plugins for more SDN vendors).  
-- Market Milestones: 1,000 units sold; partnerships (e.g., TP-Link); conference talks.
+**Goal**: Make Appliance fully functional standalone.
 
-## Linking Strategic Goals to Development Steps
+**Week 1**
 
-- **Goal 1 (Safe Autonomous SDN)**: Phases 1–2 (edge RL + governance) → Q2 MVP with rollback; Phase 4 (GNN/multi-agent) → 1.0 release.  
-- **Goal 2 (Multi-Agent RL)**: Phase 2 (edge Q-Learning) → early prototypes; Phase 4 (PettingZoo + Ray) → full implementation.  
-- **Goal 3 (Usable AIOps Console)**: Phase 3 (FAISS/LLM + Vue) → beta dashboard; post-1.0 UX polish.  
+- Debug/refactor Q-Learning + REPTILE small-scale training loop (async run_episode)
+- Add policy guardrails + autonomy mode checks
 
-This roadmap ensures incremental value, with each release building toward business impact (e.g., beta feedback drives 1.0 features).
+**Week 2**
 
-## Risks and Contingencies
+- Implement local TinyML remediation execution (Netmiko/Omada API calls)
+- Add checkpoint path safety + mkdir logic
+- Full Mininet simulation validation
 
-- **Technical Delay**: RL convergence issues — contingency: fallback to rule-based in MVP (20% time buffer).  
-- **Market Adoption**: Slow homelab uptake — contingency: Phoenix beta focus, free tier.  
-- **Cost Overrun**: Hardware/testing — contingency: Simulate with Mininet (reduce physical deps).  
+**Week 3**
 
-This roadmap positions Network-Chan for success—delivering value early while scaling strategically.
+- Manual QA on real hardware (end-to-end anomaly detection → remediation)
+- Add unit tests for Q-Learning paths
+- Success criteria: Appliance runs autonomously, detects/remediates issues, rolls back safely
+
+**Deliverables**: Standalone Appliance MVP core  
+**Dependencies**: Phase 2
+
+### Phase 4: Application Basics & Integration (May 19 – June 8, 2026 | 3 weeks)
+
+**Goal**: Build central layer and first integration.
+
+**Week 1**
+
+- Set up Application as background service (persistent, Electron/browser launch)
+- Implement central multi-agent GNN-based RL-MAML training (Ray RLlib + PettingZoo)
+
+**Week 2**
+
+- Add model quantization + MQTT push to Appliance
+- Implement full SQLite + FAISS ingest on Application side
+- Build centralized config/logs viewer in Vue 3 / Vite dashboard
+
+**Week 3**
+
+- Add TOTP 2FA + auto-logout on Application
+- Manual end-to-end test (telemetry → central training → model push)
+- Success criteria: Application receives data, trains, pushes updates, dashboard shows everything
+
+**Deliverables**: Working Application with first bidirectional link  
+**Dependencies**: Phase 3
+
+### Phase 5: Communications (June 9 – June 15, 2026 | 1 week)
+
+**Goal**: Solidify bidirectional flow and security.
+
+**Tasks**:
+
+- Full bidirectional MQTT testing (telemetry up, models down, config sync)
+- End-to-end testing on real hardware (Pi 5 + PC)
+- Enforce auto-logout + TOTP everywhere
+- Add TLS verification and ACL hardening
+
+**Deliverables**: Rock-solid communication layer  
+**Success criteria**: Zero dropped messages, secure TLS, seamless model updates
+
+### Phase 6: Polish & Alpha Testing (June 16 – July 6, 2026 | 3 weeks)
+
+**Goal**: Make the system feel complete and stable in home lab.
+
+**Week 1–2**:
+
+- Add voice/personality UX (VAD + optional TTS/STT)
+- Implement multi-agent coordination (PettingZoo agents)
+- Home-lab stress testing (Locust + Mininet chaos)
+
+**Week 3**:
+
+- Full alpha testing on your actual network
+- Bug fixes + performance tuning (Numba njit paths)
+- Success criteria: Stable 24/7 run, voice works, multi-agent improves decisions
+
+**Deliverables**: Polished, production-feeling system in your lab
+
+### Phase 7: MVP & Beta Readiness (July 7 – July 20, 2026 | 2 weeks)
+
+**Goal**: Package and show the world.
+
+**Tasks**:
+
+- Create final Docker images + Pi SD card guide
+- Build beta distribution (GitHub release + QR code installer flow)
+- Record demonstration videos for social media (X, Reddit r/homelab, etc.)
+- Success criteria: Anyone can install and run full system from QR/website
+
+**Deliverables**: MVP ready for public beta
+
+### Phase 8: Post-MVP Release (July 21 – August 31, 2026 | 6 weeks)
+
+**Goal**: Get feedback and funding.
+
+**Tasks**:
+
+- Publish demos on social media channels
+- Reach out to angel investors and mentors (list prepared in advance)
+- Run structured feedback sessions with early beta users
+- Iterate based on feedback (continuous development loop)
+
+**Deliverables**: Investor meetings scheduled, beta community growing
+
+### Phase 9: CI/CD Loop & Future Enhancements (September 2026 onward)
+
+**Goal**: Make development sustainable and forward-looking.
+
+**Tasks**:
+
+- Fully enable and expand CI/CD pipeline (full test coverage, security scans)
+- Research and implement PQC cryptography (ML-KEM key exchange + ML-DSA signatures for MQTT and model signing)
+- Loop through continuous development based on user/investor feedback
+- Add any new enhancements (Home Assistant deeper integration, etc.)
+
+**Deliverables**: Production-grade CI/CD + quantum-resistant security layer
+
+## Success Metrics for Full Project
+
+- Appliance + Application running 24/7 on real hardware with zero crashes
+- MTTD/MTTR <60 seconds in lab tests
+- False positive rate <3%
+- Beta users able to install via QR/website and run full system
+- Positive investor/mentor feedback + at least one funding conversation
+
+This micro-view roadmap is now the single source of truth for development from today through post-MVP. We will update it every 4 weeks or after each major phase completion.
